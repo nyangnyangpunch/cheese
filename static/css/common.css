@@ -18,3 +18,112 @@
   --color-secondary: #c3b9d6;
   --color-accent: #ffcc00;
 }
+
+/*---------- Panel ----------*/
+.panel {
+  padding: 1rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.panel .panel-title {
+  text-align: left;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: .5rem;
+}
+
+.panel .panel-control {
+  margin: 1rem 0;
+}
+
+.text {
+  color: #555;
+}
+/*---------- Panel END ----------*/
+
+
+/*---------- Control (input, button 등) ----------*/
+input, textarea {
+  outline: none;
+  padding: .5rem;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+  -webkit-transition: .3s;
+     -moz-transition: .3s;
+      -ms-transition: .3s;
+       -o-transition: .3s;
+          transition: .3s;
+}
+
+input:hover,
+input:focus,
+textarea:hover,
+textarea:focus {
+  box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+}
+
+.button {
+  cursor: pointer;
+  outline: none;
+  padding: .5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  -webkit-transition: .3s;
+     -moz-transition: .3s;
+      -ms-transition: .3s;
+       -o-transition: .3s;
+          transition: .3s;
+}
+
+.button:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+  background-color: #eee;
+}
+
+.button.red {
+  border: none;
+  background-color: tomato;
+  color: #fff;
+}
+.button.red:hover {
+  background-color: #cc4f38;
+}
+
+
+
+.button.orange {
+  border: none;
+  background-color: orange;
+  color: #fff;
+}
+.button.orange:hover {
+  background-color: #cc8400;
+}
+
+
+
+.button.green {
+  border: none;
+  background-color: #66b266;
+  color: #fff;
+}
+.button.green:hover {
+  background-color: #329932;
+}
+
+
+
+.button.blue {
+  border: none;
+  background-color: dodgerblue;
+  color: #fff;
+}
+.button.blue:hover {
+  background-color: #1873cc;
+}
+
+/*---------- Control END ----------*/

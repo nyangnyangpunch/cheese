@@ -31,9 +31,11 @@ const changeTitle = text => {
 /* 해당 페이지 로드 후 #content에 표시 */
 const loadContent = name => {
   contentLoading(true)
+  $('#content').css('opacity', '0')
   $('#content').load(`/${name}`, () => {
     setTimeout(() => {
       changeTitle(name)
+      $('#content').css('opacity', '1')
       contentLoading(false)
     }, 1000)
   })

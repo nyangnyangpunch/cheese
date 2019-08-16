@@ -31,9 +31,11 @@ var changeTitle = function changeTitle(text) {
 
 var loadContent = function loadContent(name) {
   contentLoading(true);
+  $('#content').css('opacity', '0');
   $('#content').load("/".concat(name), function () {
     setTimeout(function () {
       changeTitle(name);
+      $('#content').css('opacity', '1');
       contentLoading(false);
     }, 1000);
   });

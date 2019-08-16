@@ -1,0 +1,139 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+#wrap {
+  width: 100%;
+  height: 100%;
+}
+
+/*---------- Header ----------*/
+/* 상단 헤더 */
+header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5rem;
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+/* Header 치즈 타이틀 */
+header .title {
+  float: left;
+  margin-left: 2rem;
+  font-weight: bold;
+  font-size: 2rem;
+  line-height: 5rem;
+  color: #fff;
+  text-decoration: none;
+  -webkit-transition: .3s;
+     -moz-transition: .3s;
+      -ms-transition: .3s;
+       -o-transition: .3s;
+          transition: .3s;
+}
+
+header .title:hover {
+  color: var(--color-accent);
+}
+
+/* Header 우측의 메뉴 제목 */
+header #header_title {
+  float: right;
+  margin-right: 2rem;
+  font-size: 1.5rem;
+  line-height: 5rem;
+}
+/*---------- Header END ----------*/
+
+
+/*---------- Main ----------*/
+/* 내용 영역 (Drawer, 메인) */
+.main {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding-top: 5rem;
+}
+
+/* 좌측의 메뉴영역 */
+.main .drawer {
+  flex-grow: 1;
+  background-color: var(--color-secondary);
+}
+
+/* 메뉴 항목 */
+.main .drawer .drawer-item {
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+  text-align: center;
+  padding: 1rem .5rem;
+  font-size: 1.5rem;
+  color: #000;
+  text-decoration: none;
+}
+
+.main .drawer .drawer-item:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -webkit-transition: .3s;
+     -moz-transition: .3s;
+      -ms-transition: .3s;
+       -o-transition: .3s;
+          transition: .3s;
+}
+
+.main .drawer .drawer-item:hover:before,
+.drawer-item.active:before {
+  background-color: rgba(0, 0, 0, .1);
+}
+
+/* 실제 내용 영역*/
+.main .content {
+  flex-grow: 4;
+  padding: 1rem;
+}
+/*---------- Main END ----------*/
+
+
+/*---------- Loading 영역 ----------*/
+#loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  -webkit-transition: 1s;
+     -moz-transition: 1s;
+      -ms-transition: 1s;
+       -o-transition: 1s;
+          transition: 1s;
+}
+
+#loading img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70px;
+  -webkit-transform: translate(-50%, -50%);
+     -moz-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+       -o-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+#loading.hide {
+  pointer-events: none;
+  opacity: 0;
+}

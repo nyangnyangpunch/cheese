@@ -125,15 +125,34 @@ header #header_title {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 70px;
-  -webkit-transform: translate(-50%, -50%);
-     -moz-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-       -o-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  width: 100px;
+  -webkit-animation: loading 1s alternate infinite;
+     -moz-animation: loading 1s alternate infinite;
+      -ms-animation: loading 1s alternate infinite;
+       -o-animation: loading 1s alternate infinite;
+          animation: loading 1s alternate infinite;
 }
 
 #loading.hide {
   pointer-events: none;
   opacity: 0;
 }
+
+@keyframes loading {
+  0% {
+    -webkit-transform: translate(-50%, -50%) scale(.5);
+       -moz-transform: translate(-50%, -50%) scale(.5);
+        -ms-transform: translate(-50%, -50%) scale(.5);
+         -o-transform: translate(-50%, -50%) scale(.5);
+            transform: translate(-50%, -50%) scale(.5);
+  }
+
+  100% {
+    -webkit-transform: translate(-50%, -50%) scale(1);
+       -moz-transform: translate(-50%, -50%) scale(1);
+        -ms-transform: translate(-50%, -50%) scale(1);
+         -o-transform: translate(-50%, -50%) scale(1);
+            transform: translate(-50%, -50%) scale(1);
+  }
+}
+/*---------- Loading 영역 END ----------*/

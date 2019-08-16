@@ -63,7 +63,7 @@ header #header_title {
 
 /* 좌측의 메뉴영역 */
 .main .drawer {
-  flex-grow: 1;
+  width: 240px;
   background-color: var(--color-secondary);
 }
 
@@ -100,7 +100,7 @@ header #header_title {
 
 /* 실제 내용 영역*/
 .main .content {
-  flex-grow: 4;
+  flex-grow: 1;
   padding: 1rem;
 }
 /*---------- Main END ----------*/

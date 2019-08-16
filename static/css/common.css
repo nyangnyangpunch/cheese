@@ -20,10 +20,33 @@
 }
 
 /*---------- Panel ----------*/
+.row {
+  display: inline-block;
+  width: 100%;
+}
+
+.col {
+  padding: .5rem;
+}
+
+.col.wd-100 {
+  width: 100%;
+  float: left;
+}
+
+.col.wd-50 {
+  width: 50%;
+  float: left;
+}
+
+.col.wd-33 {
+  width: 33%;
+  float: left;
+}
+
 .panel {
   padding: 1rem;
   border-radius: 5px;
-  margin-bottom: 1rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, .2);
 }
 

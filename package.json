@@ -1,0 +1,28 @@
+{
+  "name": "cheese",
+  "version": "0.0.1",
+  "description": "Monitoring for k8s",
+  "main": "index.js",
+  "scripts": {
+    "web": "babel static/dev -w -d static/js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nyangnyangpunch/cheese.git"
+  },
+  "keywords": [
+    "k8s",
+    "monitoring"
+  ],
+  "author": "Nyangnyangpunch",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nyangnyangpunch/cheese/issues"
+  },
+  "homepage": "https://github.com/nyangnyangpunch/cheese#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5"
+  }
+}

@@ -41,6 +41,8 @@ npm i
 |   +-- _page # 웹 페이지 라우드 정의 소스
 |   +-- _util # 서버 공통/유틸 소스
 |   +-- init.js # 서버 초기화 소스
++-- _config
+|   +-- default.json # 서버 설정 파일
 +-- app.js # 서버 실행 파일
 +-- .babelrc # Babel 설정파일
 +-- package.json # npm 설정 파일

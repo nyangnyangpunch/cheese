@@ -3,8 +3,10 @@ const express = require('express')
 const config = require('config')
 const app = express()
 
+const PORT = config.get('port')
+
 global.__root = __dirname
 require('./src/init')(app)
 
 // 서버 실행
-app.listen(config.get('port'), () => logger.info('Server started'))
+app.listen(PORT, () => logger.info(`Server started, port: ${PORT}`))

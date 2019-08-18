@@ -63,8 +63,7 @@ header #header_title {
 
 /* 좌측의 메뉴영역 */
 .main .drawer {
-  width: 240px;
-  min-width: 240px;
+  min-width: 20%;
   box-shadow: 0 0 5px rgba(0, 0, 0, .2);
 }
 
@@ -119,6 +118,7 @@ header #header_title {
 .main .content {
   flex-grow: 1;
   padding: 1rem;
+  overflow-y: auto;
 }
 /*---------- Main END ----------*/
 

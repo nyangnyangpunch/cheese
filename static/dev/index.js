@@ -1,38 +1,48 @@
 const menuList = [
   {
-    name: 'project'
+    target: 'project',
+    name: 'Project'
   },
   {
-    name: 'setting'
+    target: 'setting',
+    name: 'Setting'
   },
   {
-    name: 'help'
+    target: 'help',
+    name: 'Help'
+  },
+  {
+    target: 'visual',
+    name: 'Visualization'
+  },
+  {
+    target: 'manage',
+    name: 'Management'
   }
 ]
 
 /* 좌측 메뉴 이벤트 설정 */
 const initMenu = () => {
-  menuList.forEach(({ name }) => {
-    $(`#menu_${name}`).click(function () {
+  menuList.forEach(({ target, name }) => {
+    $(`#menu_${target}`).click(function (event) {
+      event.stopPropagation()
       $('.drawer-item').removeClass('active')
-      $(`#menu_${name}`).addClass('active')
-      loadContent(name)
+      $(`#menu_${target}`).addClass('active')
+      loadContent(target, name)
     })
   })
 }
 
 /* 상단 Header 우측의 타이틀 변경 */
-const changeTitle = text => {
-  const title = text.substring(0, 1).toUpperCase() +
-                text.substring(1, text.length)
+const changeTitle = title => {
   $('#header_title').text(title)
 }
 
 /* 해당 페이지 로드 후 #content에 표시 */
-const loadContent = name => {
+const loadContent = (target, name) => {
   contentLoading(true)
   $('#content').css('opacity', '0')
-  $('#content').load(`/${name}`, () => {
+  $('#content').load(`/${target}`, () => {
     setTimeout(() => {
       changeTitle(name)
       $('#content').css('opacity', '1')

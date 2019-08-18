@@ -1,11 +1,20 @@
 const { logger } = require('../util/logger')
+const { executeCommand } = require('../util/command')
 const API_ENDPOINT = '/API'
 
 module.exports = app => {
   app.get(API_ENDPOINT + '/testApi', async (req, res) => {
-    logger.debug('Recieved: ' + req.query.text)
-    res.json({ name: 'catpunch' })
+    const text = req.query.text.split(' ')
+    const cmd = text[0]
+    const args = text.slice(1)
+    logger.debug(`${cmd} ${args}`)
 
-    // TODO: 명령어 받고 서버측에서 커맨드 실행하기
+    try {
+      var response = await executeCommand(cmd, args)
+    } catch (e) {
+      logger.error(e)
+    }
+
+    res.json(response)
   })
 }

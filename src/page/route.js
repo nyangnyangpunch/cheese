@@ -12,6 +12,16 @@ module.exports = app => {
     res.send(await render('project.html'))
   })
 
+  // visual 메뉴
+  app.get('/visual', async (_, res) => {
+    res.send(await render('visualization.html'))
+  })
+
+  // manage 메뉴
+  app.get('/manage', async (_, res) => {
+    res.send(await render('management.html'))
+  })
+
   // Setting 메뉴
   app.get('/setting', async (_, res) => {
     res.send(await render('setting.html'))

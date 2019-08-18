@@ -7,6 +7,7 @@ const LEVELS = {
   'SUCCESS': colors.green,
   'WARNING': colors.yellow,
   'DANGER': colors.red,
+  'ERROR': colors.red,
   'CRITICAL': colors.magenta
 }
 
@@ -64,6 +65,9 @@ const logger = {
   },
   danger (msg) {
     log(msg, 'DANGER')
+  },
+  error (msg) {
+    log(msg, 'ERROR')
   },
   critical (msg) {
     log(msg, 'CRITICAL')

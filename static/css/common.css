@@ -15,7 +15,9 @@
 
 .root {
   --color-primary: darkslateblue;
+  --color-primary-dark: #39306f;
   --color-secondary: #c3b9d6;
+  --color-secondary-dark: #9c94ab;
   --color-accent: #ffcc00;
 }
 

@@ -99,6 +99,24 @@ header #header_title {
   background-color: rgba(0, 0, 0, .1);
 }
 
+/* 메뉴 Hover시 보여질 서브 메뉴 */
+.main .drawer .drawer-item .drawer-sub-menu {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: -240px;
+  min-width: 240px;
+  background-color: var(--color-secondary);
+}
+
+.main .drawer .drawer-item:hover .drawer-sub-menu {
+  display: block;
+}
+
+.main .drawer .drawer-item:hover .drawer-sub-menu .drawer-item {
+  background-color: var(--color-secondary-dark);
+}
+
 /* 실제 내용 영역*/
 .main .content {
   flex-grow: 1;

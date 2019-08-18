@@ -65,7 +65,7 @@ header #header_title {
 .main .drawer {
   width: 240px;
   min-width: 240px;
-  background-color: var(--color-secondary);
+  box-shadow: 0 0 5px rgba(0, 0, 0, .2);
 }
 
 /* 메뉴 항목 */
@@ -96,7 +96,7 @@ header #header_title {
 
 .main .drawer .drawer-item:hover:before,
 .drawer-item.active:before {
-  background-color: rgba(0, 0, 0, .1);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 /* 메뉴 Hover시 보여질 서브 메뉴 */
@@ -106,15 +106,13 @@ header #header_title {
   top: 0;
   right: -240px;
   min-width: 240px;
-  background-color: var(--color-secondary);
+  border-left: 1px solid #eee;
+  background-color: #fff;
+  box-shadow: 5px 0 5px rgba(0, 0, 0, .2);
 }
 
 .main .drawer .drawer-item:hover .drawer-sub-menu {
   display: block;
-}
-
-.main .drawer .drawer-item:hover .drawer-sub-menu .drawer-item {
-  background-color: var(--color-secondary-dark);
 }
 
 /* 실제 내용 영역*/

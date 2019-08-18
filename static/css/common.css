@@ -29,19 +29,28 @@
   padding: .5rem;
 }
 
-.col.wd-100 {
-  width: 100%;
-  float: left;
+@media only screen and (min-width: 320px), (min-width: 768px) {
+  .col.wd-33, .col.wd-50, .col.wd-100 {
+    width: 100%;
+    float: left;
+  }
 }
 
-.col.wd-50 {
-  width: 50%;
-  float: left;
-}
-
-.col.wd-33 {
-  width: 33%;
-  float: left;
+@media only screen and (min-width: 1224px) {
+  .col.wd-100 {
+    width: 100%;
+    float: left;
+  }
+  
+  .col.wd-50 {
+    width: 50%;
+    float: left;
+  }
+  
+  .col.wd-33 {
+    width: 33%;
+    float: left;
+  }
 }
 
 .panel {

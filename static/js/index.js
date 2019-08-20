@@ -2,59 +2,31 @@
 
 var menuList = [{
   target: 'project',
-  name: 'Project',
-  hook: function hook(end) {
-    $.ajax({
-      url: '/API/getPods',
-      type: 'GET',
-      dataType: 'JSON',
-      success: function success(res) {
-        console.log(res);
-        end();
-      },
-      error: function error(jqXHR, state) {
-        console.error(jqXHR, state);
-        end();
-      }
-    });
-  }
+  name: 'Project'
 }, {
   target: 'setting',
-  name: 'Setting',
-  hook: function hook(end) {
-    end();
-  }
+  name: 'Setting'
 }, {
   target: 'help',
-  name: 'Help',
-  hook: function hook(end) {
-    end();
-  }
+  name: 'Help'
 }, {
   target: 'visual',
-  name: 'Visualization',
-  hook: function hook(end) {
-    end();
-  }
+  name: 'Visualization'
 }, {
   target: 'manage',
-  name: 'Management',
-  hook: function hook(end) {
-    end();
-  }
+  name: 'Management'
 }];
 /* 좌측 메뉴 이벤트 설정 */
 
 var initMenu = function initMenu() {
   menuList.forEach(function (_ref) {
     var target = _ref.target,
-        name = _ref.name,
-        hook = _ref.hook;
+        name = _ref.name;
     $("#menu_".concat(target)).click(function (event) {
       event.stopPropagation();
       $('.drawer-item').removeClass('active');
       $("#menu_".concat(target)).addClass('active');
-      loadContent(target, name, hook);
+      loadContent(target, name);
     });
   });
 };
@@ -67,17 +39,15 @@ var changeTitle = function changeTitle(title) {
 /* 해당 페이지 로드 후 #content에 표시 */
 
 
-var loadContent = function loadContent(target, name, hook) {
+var loadContent = function loadContent(target, name) {
   contentLoading(true);
   $('#content').css('opacity', '0');
   $('#content').load("/".concat(target), function () {
-    hook(function () {
-      setTimeout(function () {
-        changeTitle(name);
-        $('#content').css('opacity', '1');
-        contentLoading(false);
-      }, 1000);
-    });
+    setTimeout(function () {
+      changeTitle(name);
+      $('#content').css('opacity', '1');
+      contentLoading(false);
+    }, 1000);
   });
 };
 /* 로딩영역 show/hide */
@@ -104,8 +74,7 @@ $(function () {
 
   var _menuList$ = menuList[0],
       target = _menuList$.target,
-      name = _menuList$.name,
-      hook = _menuList$.hook;
-  loadContent(target, name, hook);
+      name = _menuList$.name;
+  loadContent(target, name);
   initMenu();
 });

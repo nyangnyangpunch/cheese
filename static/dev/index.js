@@ -1,61 +1,34 @@
 const menuList = [
   {
     target: 'project',
-    name: 'Project',
-    hook (end) {
-      $.ajax({
-        url: '/API/getPods',
-        type: 'GET',
-        dataType: 'JSON',
-        success (res) {
-          console.log(res)
-          end()
-        },
-        error (jqXHR, state) {
-          console.error(jqXHR, state)
-          end()
-        }
-      })
-    }
+    name: 'Project'
   },
   {
     target: 'setting',
-    name: 'Setting',
-    hook (end) {
-      end()
-    }
+    name: 'Setting'
   },
   {
     target: 'help',
-    name: 'Help',
-    hook (end) {
-      end()
-    }
+    name: 'Help'
   },
   {
     target: 'visual',
-    name: 'Visualization',
-    hook (end) {
-      end()
-    }
+    name: 'Visualization'
   },
   {
     target: 'manage',
-    name: 'Management',
-    hook (end) {
-      end()
-    }
+    name: 'Management'
   }
 ]
 
 /* 좌측 메뉴 이벤트 설정 */
 const initMenu = () => {
-  menuList.forEach(({ target, name, hook }) => {
+  menuList.forEach(({ target, name }) => {
     $(`#menu_${target}`).click(function (event) {
       event.stopPropagation()
       $('.drawer-item').removeClass('active')
       $(`#menu_${target}`).addClass('active')
-      loadContent(target, name, hook)
+      loadContent(target, name)
     })
   })
 }
@@ -66,17 +39,15 @@ const changeTitle = title => {
 }
 
 /* 해당 페이지 로드 후 #content에 표시 */
-const loadContent = (target, name, hook) => {
+const loadContent = (target, name) => {
   contentLoading(true)
   $('#content').css('opacity', '0')
   $('#content').load(`/${target}`, () => {
-    hook(() => {
-      setTimeout(() => {
-        changeTitle(name)
-        $('#content').css('opacity', '1')
-        contentLoading(false)
-      }, 1000)
-    })
+    setTimeout(() => {
+      changeTitle(name)
+      $('#content').css('opacity', '1')
+      contentLoading(false)
+    }, 1000)
   })
 }
 
@@ -101,7 +72,7 @@ $(function () {
   $('#menu_quit').click(quit)
 
   // 페이지 첫 로드시 Project 메뉴 보이기
-  let { target, name, hook } = menuList[0]
-  loadContent(target, name, hook)
+  let { target, name } = menuList[0]
+  loadContent(target, name)
   initMenu()
 })

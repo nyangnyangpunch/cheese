@@ -1,5 +1,6 @@
 const { logger } = require('../util/logger')
 const { executeCommand } = require('../util/command')
+const k8s = require('../k8s/k8s')
 const API_ENDPOINT = '/API'
 
 module.exports = app => {
@@ -16,5 +17,9 @@ module.exports = app => {
     }
 
     res.json(response)
+  })
+
+  app.get(API_ENDPOINT + '/getPods', async (_req, res) => {
+    res.json(await k8s.getPods())
   })
 }

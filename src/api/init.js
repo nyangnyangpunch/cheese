@@ -20,6 +20,12 @@ module.exports = app => {
   })
 
   app.get(API_ENDPOINT + '/getPods', async (_req, res) => {
-    res.json(await k8s.getPods())
+    let resData = null
+    try {
+      resData = await k8s.getPods()
+    } catch (e) {
+      logger.error(e)
+    }
+    res.json(resData)
   })
 }

@@ -11,12 +11,11 @@ const k8sApi = kc.makeApiClient(k8s.CoreV1Api)
  * @param {string} namespace Pods 네임스페이스 (기본: default)
  */
 const getPods = async (namespace = 'default') => {
-  try {
-    return await k8sApi.listNamespacedPod(namespace).body
-  } catch (e) {
-    logger.error(e)
-    return null
-  }
+  return new Promise(resolve => {
+    k8sApi.listNamespacedPod(namespace).then(({ body }) => {
+      resolve(body)
+    })
+  })
 }
 
 exports.getPods = getPods

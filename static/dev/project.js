@@ -28,17 +28,19 @@ const showPodsList = pods => {
     })
 
     template += `
-      <div class="pod">
-        <div class="pod-name">${pod.metadata.name}</div>
-        <div class="pod-namespace">(${pod.metadata.namespace})</div>
-        <div class="host">
-          ${pod.spec.nodeName}<b class="sub">(${pod.status.hostIP})</b> - ${pod.status.phase}
+      <div class="pod-wrap">
+        <div class="pod">
+          <div class="pod-name">${pod.metadata.name}</div>
+          <div class="pod-namespace">(${pod.metadata.namespace})</div>
+          <div class="host">
+            ${pod.spec.nodeName}<b class="sub">(${pod.status.hostIP})</b> - ${pod.status.phase}
+          </div>
+          <div class="pod-containers">
+            Container(s)
+            ${containers}
+          </div>
+          <div class="start">${pod.status.startTime}</div>
         </div>
-        <div class="pod-containers">
-          Container(s)
-          ${containers}
-        </div>
-        <div class="start">${pod.status.startTime}</div>
       </div>
     `
   })

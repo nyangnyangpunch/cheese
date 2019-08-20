@@ -76,6 +76,10 @@
   margin: .5rem 0;
 }
 
+.panel .panel-body {
+  display: inline-block;
+}
+
 .panel .panel-control {
   margin: 1rem 0;
 }

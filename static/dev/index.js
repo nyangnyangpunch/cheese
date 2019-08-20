@@ -1,34 +1,61 @@
 const menuList = [
   {
     target: 'project',
-    name: 'Project'
+    name: 'Project',
+    hook (end) {
+      $.ajax({
+        url: '/API/getPods',
+        type: 'GET',
+        dataType: 'JSON',
+        success (res) {
+          console.log(res)
+          end()
+        },
+        error (jqXHR, state) {
+          console.error(jqXHR, state)
+          end()
+        }
+      })
+    }
   },
   {
     target: 'setting',
-    name: 'Setting'
+    name: 'Setting',
+    hook (end) {
+      end()
+    }
   },
   {
     target: 'help',
-    name: 'Help'
+    name: 'Help',
+    hook (end) {
+      end()
+    }
   },
   {
     target: 'visual',
-    name: 'Visualization'
+    name: 'Visualization',
+    hook (end) {
+      end()
+    }
   },
   {
     target: 'manage',
-    name: 'Management'
+    name: 'Management',
+    hook (end) {
+      end()
+    }
   }
 ]
 
 /* 좌측 메뉴 이벤트 설정 */
 const initMenu = () => {
-  menuList.forEach(({ target, name }) => {
+  menuList.forEach(({ target, name, hook }) => {
     $(`#menu_${target}`).click(function (event) {
       event.stopPropagation()
       $('.drawer-item').removeClass('active')
       $(`#menu_${target}`).addClass('active')
-      loadContent(target, name)
+      loadContent(target, name, hook)
     })
   })
 }
@@ -39,15 +66,17 @@ const changeTitle = title => {
 }
 
 /* 해당 페이지 로드 후 #content에 표시 */
-const loadContent = (target, name) => {
+const loadContent = (target, name, hook) => {
   contentLoading(true)
   $('#content').css('opacity', '0')
   $('#content').load(`/${target}`, () => {
-    setTimeout(() => {
-      changeTitle(name)
-      $('#content').css('opacity', '1')
-      contentLoading(false)
-    }, 1000)
+    hook(() => {
+      setTimeout(() => {
+        changeTitle(name)
+        $('#content').css('opacity', '1')
+        contentLoading(false)
+      }, 1000)
+    })
   })
 }
 
@@ -72,6 +101,7 @@ $(function () {
   $('#menu_quit').click(quit)
 
   // 페이지 첫 로드시 Project 메뉴 보이기
-  loadContent('project')
+  let { target, name, hook } = menuList[0]
+  loadContent(target, name, hook)
   initMenu()
 })

@@ -1,4 +1,5 @@
 const { logger } = require('./util/logger')
+const es = require('./api/elastic/elasticsearch')
 
 const express = require('express')
 const config = require('config')
@@ -32,4 +33,7 @@ module.exports = app => {
   /* 페이지 및 API 라우터 등록 */
   require('./page/route')(app)
   require('./api/init')(app)
+
+  /* ElasticSearch 클라이언트 초기화 */
+  es.init()
 }

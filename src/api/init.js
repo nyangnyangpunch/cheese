@@ -1,6 +1,7 @@
 const { logger } = require('../util/logger')
 const { executeCommand } = require('../util/command')
-const k8s = require('../k8s/k8s')
+const elastic = require('./elastic/elasticsearch')
+const k8s = require('./k8s/k8s')
 const API_ENDPOINT = '/API'
 
 module.exports = app => {

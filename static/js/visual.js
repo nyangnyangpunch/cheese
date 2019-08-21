@@ -56,8 +56,7 @@ var createTestChart = function createTestChart() {
 
 
 var dataProcessing = function dataProcessing(data) {
-  var dataList = data.hits.hits;
-  return dataList.filter(function (d) {
+  var dataList = data.body.hits.hits.filter(function (d) {
     return d._source.metricset && d._source.metricset.name === 'process';
   }).map(function (d) {
     var cpuInfo = d._source.system.process.cpu;
@@ -66,6 +65,8 @@ var dataProcessing = function dataProcessing(data) {
       value: cpuInfo.total.value
     };
   });
+  console.log(dataList);
+  return dataList;
 };
 /**
  * Metric 정보 수집

@@ -56,8 +56,7 @@ const createTestChart = () => {
  * @param {any} data ES 조회 데이터
  */
 const dataProcessing = data => {
-  const dataList = data.hits.hits
-  return dataList
+  const dataList = data.body.hits.hits
     .filter(d => d._source.metricset && d._source.metricset.name === 'process')
     .map(d => {
       const cpuInfo = d._source.system.process.cpu
@@ -67,6 +66,9 @@ const dataProcessing = data => {
         value: cpuInfo.total.value
       }
     })
+  
+  console.log(dataList)
+  return dataList
 }
 
 

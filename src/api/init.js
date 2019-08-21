@@ -1,6 +1,6 @@
 const { logger } = require('../util/logger')
 const { executeCommand } = require('../util/command')
-const elastic = require('./elastic/elasticsearch')
+const es = require('./elastic/elasticsearch')
 const k8s = require('./k8s/k8s')
 const API_ENDPOINT = '/API'
 
@@ -24,6 +24,23 @@ module.exports = app => {
     let resData = null
     try {
       resData = await k8s.getPods()
+    } catch (e) {
+      logger.error(e)
+    }
+    res.json(resData)
+  })
+
+  app.get(API_ENDPOINT + '/esTest', async (_req, res) => {
+    let resData = null
+    try {
+      resData = await es.search('metricbeat-*', {
+        query: {
+          match_all: {}
+        },
+        sort: [
+          { '@timestamp' : 'desc' }
+        ]
+      })
     } catch (e) {
       logger.error(e)
     }

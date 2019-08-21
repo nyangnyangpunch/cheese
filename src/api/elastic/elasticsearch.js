@@ -25,6 +25,4 @@ class ElasticSearchManager {
   }
 }
 
-const esInstance = new ElasticSearchManager()
-
-export default esInstance
+module.exports = new ElasticSearchManager()

@@ -1,4 +1,4 @@
-const { logger } = require('../util/logger')
+const { logger } = require('../../util/logger')
 const k8s = require('@kubernetes/client-node')
 
 const kc = new k8s.KubeConfig()

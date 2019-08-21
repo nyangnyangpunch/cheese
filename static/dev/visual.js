@@ -16,7 +16,7 @@ const createTestChart = () => {
       trigger: 'axis',
       formatter (params) {
         params = params[0]
-        var date = new Date(params.timestamp)
+        var date = new Date(params.name)
         return date.toLocaleString()
       },
       axisPointer: {
@@ -30,7 +30,6 @@ const createTestChart = () => {
       },
       yAxis: {
         type: 'value',
-        boundaryGap: [0, '100%'],
         splitLine: {
           show: false
         }
@@ -59,11 +58,15 @@ const dataProcessing = data => {
   const dataList = data.body.hits.hits
     .filter(d => d._source.metricset && d._source.metricset.name === 'process')
     .map(d => {
+      const date = new Date(d._source['@timestamp'])
       const cpuInfo = d._source.system.process.cpu
 
       return {
-        timestamp: d._source['@timestamp'],
-        value: cpuInfo.total.value
+        name: date.toString(),
+        value: [
+          [date.getHours(), date.getMinutes(), date.getSeconds()].join(':'),
+          cpuInfo.total.value
+        ]
       }
     })
   

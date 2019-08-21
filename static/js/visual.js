@@ -17,7 +17,7 @@ var createTestChart = function createTestChart() {
       trigger: 'axis',
       formatter: function formatter(params) {
         params = params[0];
-        var date = new Date(params.timestamp);
+        var date = new Date(params.name);
         return date.toLocaleString();
       },
       axisPointer: {
@@ -31,7 +31,6 @@ var createTestChart = function createTestChart() {
       },
       yAxis: {
         type: 'value',
-        boundaryGap: [0, '100%'],
         splitLine: {
           show: false
         }
@@ -59,10 +58,11 @@ var dataProcessing = function dataProcessing(data) {
   var dataList = data.body.hits.hits.filter(function (d) {
     return d._source.metricset && d._source.metricset.name === 'process';
   }).map(function (d) {
+    var date = new Date(d._source['@timestamp']);
     var cpuInfo = d._source.system.process.cpu;
     return {
-      timestamp: d._source['@timestamp'],
-      value: cpuInfo.total.value
+      name: date.toString(),
+      value: [[date.getHours(), date.getMinutes(), date.getSeconds()].join(':'), cpuInfo.total.value]
     };
   });
   console.log(dataList);

@@ -5,7 +5,8 @@
  */
 
 var testChart = null
-var globalData = null
+var globalValue = null
+var globalCategory = null
 const createTestChart = () => {
 
   const testChartOption = {
@@ -23,10 +24,11 @@ const createTestChart = () => {
         animation: false
       },
       xAxis: {
-        type: 'time',
+        type: 'category',
         splitLine: {
           show: false
-        }
+        },
+        data: globalCategory
       },
       yAxis: {
         type: 'value',
@@ -39,7 +41,7 @@ const createTestChart = () => {
         type: 'line',
         showSymbol: false,
         hoverAnimation: false,
-        data: globalData
+        data: globalValue
       }]
     }
   }
@@ -57,21 +59,24 @@ const createTestChart = () => {
 const dataProcessing = data => {
   const dataList = data.body.hits.hits
     .filter(d => d._source.metricset && d._source.metricset.name === 'process')
-    .map(d => {
-      const date = new Date(d._source['@timestamp'])
-      const cpuInfo = d._source.system.process.cpu
 
-      return {
-        name: date.toString(),
-        value: [
-          [date.getHours(), date.getMinutes(), date.getSeconds()].join(':'),
-          cpuInfo.total.value
-        ]
-      }
-    })
+  const value = dataList.map(d => {
+    const cpuInfo = d._source.system.process.cpu
+    return cpuInfo.total.value
+  })
+
+  const category = dataList.map(d => {
+    const date = new Date(d._source['@timestamp'])
+    return [date.getHours(), date.getMinutes(), date.getSeconds()].join(':')
+  })
   
-  console.log(dataList)
-  return dataList
+  const res = {
+    value,
+    category
+  }
+
+  console.log(res)
+  return res
 }
 
 
@@ -96,13 +101,17 @@ const getMetricData = (callback) => {
 
 $(function () {
   getMetricData(mData => {
-    globalData = dataProcessing(mData)
+    const pData = dataProcessing(mData)
+    globalValue = pData.value
+    globalCategory = pData.category
     createTestChart()
 
     setInterval(() => {
       getMetricData(mmData => {
-        globalData.shift()
-        globalData.push(dataProcessing(mmData)[0])
+        globalValue.shift()
+        globalCategory.shift()
+        globalValue.push(dataProcessing(mmData).value[0])
+        globalCategory.push(dataProcessing(mmData).category[0])
 
         testChart.setOption({
           series: [{
@@ -110,7 +119,7 @@ $(function () {
             type: 'line',
             showSymbol: false,
             hoverAnimation: false,
-            data: globalData
+            data: globalValue
           }]
         })
       })

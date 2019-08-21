@@ -6,7 +6,8 @@
  * Visualization 메뉴 스크립트
  */
 var testChart = null;
-var globalData = null;
+var globalValue = null;
+var globalCategory = null;
 
 var createTestChart = function createTestChart() {
   var testChartOption = {
@@ -24,10 +25,11 @@ var createTestChart = function createTestChart() {
         animation: false
       },
       xAxis: {
-        type: 'time',
+        type: 'category',
         splitLine: {
           show: false
-        }
+        },
+        data: globalCategory
       },
       yAxis: {
         type: 'value',
@@ -40,7 +42,7 @@ var createTestChart = function createTestChart() {
         type: 'line',
         showSymbol: false,
         hoverAnimation: false,
-        data: globalData
+        data: globalValue
       }]
     }
   };
@@ -57,16 +59,21 @@ var createTestChart = function createTestChart() {
 var dataProcessing = function dataProcessing(data) {
   var dataList = data.body.hits.hits.filter(function (d) {
     return d._source.metricset && d._source.metricset.name === 'process';
-  }).map(function (d) {
-    var date = new Date(d._source['@timestamp']);
-    var cpuInfo = d._source.system.process.cpu;
-    return {
-      name: date.toString(),
-      value: [[date.getHours(), date.getMinutes(), date.getSeconds()].join(':'), cpuInfo.total.value]
-    };
   });
-  console.log(dataList);
-  return dataList;
+  var value = dataList.map(function (d) {
+    var cpuInfo = d._source.system.process.cpu;
+    return cpuInfo.total.value;
+  });
+  var category = dataList.map(function (d) {
+    var date = new Date(d._source['@timestamp']);
+    return [date.getHours(), date.getMinutes(), date.getSeconds()].join(':');
+  });
+  var res = {
+    value: value,
+    category: category
+  };
+  console.log(res);
+  return res;
 };
 /**
  * Metric 정보 수집
@@ -90,19 +97,23 @@ var getMetricData = function getMetricData(callback) {
 
 $(function () {
   getMetricData(function (mData) {
-    globalData = dataProcessing(mData);
+    var pData = dataProcessing(mData);
+    globalValue = pData.value;
+    globalCategory = pData.category;
     createTestChart();
     setInterval(function () {
       getMetricData(function (mmData) {
-        globalData.shift();
-        globalData.push(dataProcessing(mmData)[0]);
+        globalValue.shift();
+        globalCategory.shift();
+        globalValue.push(dataProcessing(mmData).value[0]);
+        globalCategory.push(dataProcessing(mmData).category[0]);
         testChart.setOption({
           series: [{
             name: 'Test',
             type: 'line',
             showSymbol: false,
             hoverAnimation: false,
-            data: globalData
+            data: globalValue
           }]
         });
       });

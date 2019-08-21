@@ -30,16 +30,28 @@ module.exports = app => {
     res.json(resData)
   })
 
-  app.get(API_ENDPOINT + '/esTest', async (_req, res) => {
+  app.get(API_ENDPOINT + '/getMetric', async (_req, res) => {
     let resData = null
     try {
       resData = await es.search('metricbeat-*', {
-        query: {
-          match_all: {}
+        'query': {
+          'bool': {
+            'must': [
+              {
+                'range': {
+                  '@timestamp': {
+                    'gte': 'now-1h',
+                    'lte': 'now/m'
+                  }
+                }
+              }
+            ]
+          }
         },
-        sort: [
+        'sort': [
           { '@timestamp' : 'desc' }
-        ]
+        ],
+        size: 50
       })
     } catch (e) {
       logger.error(e)

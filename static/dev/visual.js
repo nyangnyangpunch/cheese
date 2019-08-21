@@ -103,6 +103,10 @@ $(function () {
 
         testChart.setOption({
           series: [{
+            name: 'Test',
+            type: 'line',
+            showSymbol: false,
+            hoverAnimation: false,
             data: globalData
           }]
         })

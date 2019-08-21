@@ -98,6 +98,10 @@ $(function () {
         globalData.push(dataProcessing(mmData)[0]);
         testChart.setOption({
           series: [{
+            name: 'Test',
+            type: 'line',
+            showSymbol: false,
+            hoverAnimation: false,
             data: globalData
           }]
         });

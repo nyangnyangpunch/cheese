@@ -5,7 +5,7 @@
  */
 
 var testChart = null
-var data = null
+var globalData = null
 const createTestChart = () => {
 
   const testChartOption = {
@@ -40,7 +40,7 @@ const createTestChart = () => {
         type: 'line',
         showSymbol: false,
         hoverAnimation: false,
-        data: data
+        data: globalData
       }]
     }
   }
@@ -92,18 +92,18 @@ const getMetricData = (callback) => {
 
 
 $(function () {
-  getMetricData(data => {
-    data = dataProcessing(data)
+  getMetricData(mData => {
+    globalData = dataProcessing(mData)
     createTestChart()
 
     setInterval(() => {
-      getMetricData(mData => {
-        data.shift()
-        data.push(dataProcessing(mData)[0])
+      getMetricData(mmData => {
+        globalData.shift()
+        globalData.push(dataProcessing(mmData)[0])
 
         testChart.setOption({
           series: [{
-            data: data
+            data: globalData
           }]
         })
       })

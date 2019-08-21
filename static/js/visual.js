@@ -6,7 +6,7 @@
  * Visualization 메뉴 스크립트
  */
 var testChart = null;
-var data = null;
+var globalData = null;
 
 var createTestChart = function createTestChart() {
   var testChartOption = {
@@ -41,7 +41,7 @@ var createTestChart = function createTestChart() {
         type: 'line',
         showSymbol: false,
         hoverAnimation: false,
-        data: data
+        data: globalData
       }]
     }
   };
@@ -89,16 +89,16 @@ var getMetricData = function getMetricData(callback) {
 };
 
 $(function () {
-  getMetricData(function (data) {
-    data = dataProcessing(data);
+  getMetricData(function (mData) {
+    globalData = dataProcessing(mData);
     createTestChart();
     setInterval(function () {
-      getMetricData(function (mData) {
-        data.shift();
-        data.push(dataProcessing(mData)[0]);
+      getMetricData(function (mmData) {
+        globalData.shift();
+        globalData.push(dataProcessing(mmData)[0]);
         testChart.setOption({
           series: [{
-            data: data
+            data: globalData
           }]
         });
       });

@@ -47,23 +47,45 @@ var updateChart = function updateChart(type, data) {
 
 
 var dataProcessing = function dataProcessing(data) {
-  var dataList = data.body.hits.hits.filter(function (d) {
-    return d._source.service && d._source.service.type === 'system';
-  });
+  var dataList = data.body.hits.hits;
   var timestamp = [];
   var cpu = {
+    total: [],
     user: [],
     system: [],
     nice: [],
     idle: [],
     iowait: []
   };
+  var memory = {
+    total: 0,
+    free: 0,
+    used: [],
+    swap: []
+  };
+  var network = {
+    "in": {
+      dropped: [],
+      bytes: [],
+      packets: [],
+      errors: []
+    },
+    out: {
+      dropped: [],
+      bytes: [],
+      packets: [],
+      errors: []
+    }
+  };
   dataList.forEach(function (d) {
     timestamp.push(d._source['@timestamp']);
   });
-  dataList.forEach(function (d) {
+  dataList.filter(function (d) {
+    d._source.metricset.name === 'cpu';
+  }).forEach(function (d) {
     var cpuInfo = d._source.system.cpu; // const cores = cpuInfo.cores
 
+    cpu.total.push(cpuInfo.total.pct);
     cpu.user.push(cpuInfo.user.pct);
     cpu.system.push(cpuInfo.system.pct);
     cpu.nice.push(cpuInfo.nice.pct);
@@ -74,9 +96,45 @@ var dataProcessing = function dataProcessing(data) {
   Object.keys(cpu).forEach(function (k) {
     cpuChartData.push([k].concat(_toConsumableArray(cpu[k])));
   });
+  dataList.filter(function (d) {
+    d._source.metricset.name === 'memory';
+  }).forEach(function (d) {
+    var memInfo = d._source.system.memory;
+    memory.total = memInfo.total;
+    memory.free = memInfo.free;
+    memory.used.push(memInfo.used.pct);
+    memory.swap.push(memInfo.swap.pct);
+  });
+  var memoryChartData = [];
+  memoryChartData.push(['used'].concat(_toConsumableArray(memory.used)));
+  memoryChartData.push(['swap'].concat(_toConsumableArray(memory.swap)));
+  dataList.filter(function (d) {
+    d._source.metricset.name === 'network';
+  }).forEach(function (d) {
+    var networkInfo = d._source.system.network;
+    network["in"].dropped.push(networkInfo["in"].dropped);
+    network["in"].bytes.push(networkInfo["in"].bytes);
+    network["in"].packets.push(networkInfo["in"].packets);
+    network["in"].errors.push(networkInfo["in"].errors);
+    network.out.dropped.push(networkInfo.out.dropped);
+    network.out.bytes.push(networkInfo.out.bytes);
+    network.out.packets.push(networkInfo.out.packets);
+    network.out.errors.push(networkInfo.out.errors);
+  });
+  var networkChartData = {
+    "in": [],
+    out: []
+  };
+  Object.keys(network).forEach(function (k) {
+    network[k].forEach(function (nk) {
+      networkChartData[k].push([k + ':' + nk].concat(_toConsumableArray(network[k][nk])));
+    });
+  });
   var res = {
     category: timestamp,
-    cpu: cpuChartData
+    cpu: cpuChartData,
+    memory: memoryChartData,
+    network: networkChartData
   };
   console.log(res);
   return res;
@@ -108,6 +166,9 @@ var getMetricData = function getMetricData(callback) {
   $.ajax({
     url: '/API/getMetric',
     type: 'GET',
+    data: {
+      q: 'cpu'
+    },
     dataType: 'JSON',
     success: function success(res) {
       callback(res);

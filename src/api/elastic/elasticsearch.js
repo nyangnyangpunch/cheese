@@ -1,18 +1,14 @@
 const { logger } = require('../../util/logger')
 const { Client } = require('@elastic/elasticsearch')
-const request = require('request')
 
 class ElasticSearchManager {
   constructor () {
-    this.host = 'http://localhost'
-    this.port = 9200
+    this.host = 'http://localhost:9200'
     this.client = null
   }
 
   init () {
-    this.client = new Client({
-      node: this.host + ':' + this.port
-    })
+    this.client = new Client({ node: this.host })
   }
 
   async search (index, options) {
@@ -26,23 +22,6 @@ class ElasticSearchManager {
       logger.error(e)
     }
     return result
-  }
-
-  async requestSearch (index, q='', option = {}) {
-    return new Promise(resolve => {
-      request({
-        hostname: this.host,
-        port: this.port,
-        path: '/' + index + '/_search' + q,
-        json: option
-      }, (err, res, body) => {
-        if (err) {
-          resolve({})
-        } else {
-          resolve(JSON.parse(body))
-        }
-      })
-    })
   }
 }
 

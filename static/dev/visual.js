@@ -41,10 +41,10 @@ const updateChart = (type, data) => {
  */
 const dataProcessing = data => {
   const dataList = data.body.hits.hits
-    .filter(d => d._source.service && d._source.service.type === 'system')
 
   const timestamp = []
   const cpu = {
+    total: [],
     user: [],
     system: [],
     nice: [],
@@ -52,13 +52,38 @@ const dataProcessing = data => {
     iowait: []
   }
 
+  const memory = {
+    total: 0,
+    free: 0,
+    used: [],
+    swap: []
+  }
+
+  const network = {
+    in: {
+      dropped: [],
+      bytes: [],
+      packets: [],
+      errors: []
+    },
+    out: {
+      dropped: [],
+      bytes: [],
+      packets: [],
+      errors: []
+    }
+  }
+
   dataList.forEach(d => {
     timestamp.push(d._source['@timestamp'])
   })
   
-  dataList.forEach(d => {
+  dataList
+    .filter(d => { d._source.metricset.name === 'cpu' })
+    .forEach(d => {
     const cpuInfo = d._source.system.cpu
     // const cores = cpuInfo.cores
+    cpu.total.push(cpuInfo.total.pct)
     cpu.user.push(cpuInfo.user.pct)
     cpu.system.push(cpuInfo.system.pct)
     cpu.nice.push(cpuInfo.nice.pct)
@@ -71,9 +96,51 @@ const dataProcessing = data => {
     cpuChartData.push([k, ...cpu[k]])
   })
 
+
+  dataList
+    .filter(d => { d._source.metricset.name === 'memory' })
+    .forEach(d => {
+    const memInfo = d._source.system.memory
+    memory.total = memInfo.total
+    memory.free = memInfo.free
+    memory.used.push(memInfo.used.pct)
+    memory.swap.push(memInfo.swap.pct)
+  })
+
+  const memoryChartData = []
+  memoryChartData.push(['used', ...memory.used])
+  memoryChartData.push(['swap', ...memory.swap])
+
+
+  dataList
+    .filter(d => { d._source.metricset.name === 'network' })
+    .forEach(d => {
+    const networkInfo = d._source.system.network
+    network.in.dropped.push(networkInfo.in.dropped)
+    network.in.bytes.push(networkInfo.in.bytes)
+    network.in.packets.push(networkInfo.in.packets)
+    network.in.errors.push(networkInfo.in.errors)
+    network.out.dropped.push(networkInfo.out.dropped)
+    network.out.bytes.push(networkInfo.out.bytes)
+    network.out.packets.push(networkInfo.out.packets)
+    network.out.errors.push(networkInfo.out.errors)
+  })
+
+  const networkChartData = {
+    in: [],
+    out: []
+  }
+  Object.keys(network).forEach(k => {
+    network[k].forEach(nk => {
+      networkChartData[k].push([k + ':' + nk, ...network[k][nk]])
+    })
+  })
+
   const res = {
     category: timestamp,
-    cpu: cpuChartData
+    cpu: cpuChartData,
+    memory: memoryChartData,
+    network: networkChartData
   }
 
   console.log(res)
@@ -101,6 +168,9 @@ const getMetricData = (callback) => {
   $.ajax({
     url: '/API/getMetric',
     type: 'GET',
+    data: {
+      q: 'cpu'
+    },
     dataType: 'JSON',
     success (res) {
       callback(res)

@@ -167,6 +167,10 @@ const poll = (tick = 5000) => {
       const pData = dataProcessing(data)
       pollingGroup.forEach(h => h(pData))
     })
+
+    if (true) {
+      poll()
+    }
   }, tick)
 }
 

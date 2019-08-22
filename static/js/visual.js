@@ -164,6 +164,10 @@ var poll = function poll() {
         return h(pData);
       });
     });
+
+    if (true) {
+      poll();
+    }
   }, tick);
 };
 /**

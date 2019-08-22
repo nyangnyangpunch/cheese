@@ -30,6 +30,16 @@ const createChart = (type, data) => {
         data[type].category,
         ...data[type].data
       ]
+    },
+    axis: {
+      x: {
+        type: 'category',
+        tick: {
+          culling: {
+            max: 10
+          }
+        }
+      }
     }
   }
   console.log('Create', option)

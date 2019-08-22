@@ -34,6 +34,16 @@ var createChart = function createChart(type, data) {
     data: {
       x: 'x',
       columns: [data[type].category].concat(_toConsumableArray(data[type].data))
+    },
+    axis: {
+      x: {
+        type: 'category',
+        tick: {
+          culling: {
+            max: 10
+          }
+        }
+      }
     }
   };
   console.log('Create', option);

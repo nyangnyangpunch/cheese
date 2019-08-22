@@ -27,6 +27,9 @@ var chartData = {
 
 var createChart = function createChart(type, data) {
   var option = {
+    // title: {
+    //   text: type.toUpperCase()
+    // },
     bindto: '#visual_' + type,
     data: {
       columns: data[type].data
@@ -37,7 +40,6 @@ var createChart = function createChart(type, data) {
 };
 
 var updateChart = function updateChart(type, data) {
-  console.log('Update ' + type, data[type].data);
   chartInstance[type].load({
     columns: data[type].data
   });
@@ -52,11 +54,12 @@ var updateChart = function updateChart(type, data) {
 var dataProcessing = function dataProcessing(data) {
   var dataList = data.body.hits.hits;
   var cpu = {
-    total: [],
     user: [],
     system: [],
+    steal: [],
+    irq: [],
+    softirq: [],
     nice: [],
-    idle: [],
     iowait: []
   };
   var memory = {
@@ -85,12 +88,14 @@ var dataProcessing = function dataProcessing(data) {
   }).forEach(function (d) {
     var cpuInfo = d._source.system.cpu;
     cpuCategoryData.push(d._source['@timestamp']);
-    cpu.total.push(cpuInfo.total.pct);
     cpu.user.push(cpuInfo.user.pct);
     cpu.system.push(cpuInfo.system.pct);
+    cpu.steal.push(cpuInfo.steal.pct);
+    cpu.irq.push(cpuInfo.irq.pct);
+    cpu.softirq.push(cpuInfo.softirq.pct);
     cpu.nice.push(cpuInfo.nice.pct);
-    cpu.idle.push(cpuInfo.idle.pct);
-    cpu.iowait.push(cpuInfo.iowait.pct);
+    cpu.iowait.push(cpuInfo.iowait.pct); // cpu.idle.push(cpuInfo.idle.pct)
+    // cpu.total.push(cpuInfo.total.pct)
   });
   var cpuChartData = [];
   Object.keys(cpu).forEach(function (k) {
@@ -197,8 +202,10 @@ $(function () {
   getMetricData(function (mData) {
     var pData = dataProcessing(mData);
     createChart('cpu', pData);
+    createChart('memory', pData);
     registPollingGroup(function (data) {
       updateChart('cpu', data);
+      updateChart('memory', data);
     });
     poll();
   });

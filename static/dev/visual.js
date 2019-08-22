@@ -20,6 +20,9 @@ const chartData = {
 
 const createChart = (type, data) => {
   const option = {
+    // title: {
+    //   text: type.toUpperCase()
+    // },
     bindto: '#visual_' + type,
     data: {
       columns: data[type].data
@@ -30,7 +33,6 @@ const createChart = (type, data) => {
 }
 
 const updateChart = (type, data) => {
-  console.log('Update ' + type, data[type].data)
   chartInstance[type].load({
     columns: data[type].data
   })
@@ -46,11 +48,12 @@ const dataProcessing = data => {
   const dataList = data.body.hits.hits
 
   const cpu = {
-    total: [],
     user: [],
     system: [],
+    steal: [],
+    irq: [],
+    softirq: [],
     nice: [],
-    idle: [],
     iowait: []
   }
 
@@ -83,12 +86,15 @@ const dataProcessing = data => {
     .forEach(d => {
     const cpuInfo = d._source.system.cpu
     cpuCategoryData.push(d._source['@timestamp'])
-    cpu.total.push(cpuInfo.total.pct)
     cpu.user.push(cpuInfo.user.pct)
     cpu.system.push(cpuInfo.system.pct)
+    cpu.steal.push(cpuInfo.steal.pct)
+    cpu.irq.push(cpuInfo.irq.pct)
+    cpu.softirq.push(cpuInfo.softirq.pct)
     cpu.nice.push(cpuInfo.nice.pct)
-    cpu.idle.push(cpuInfo.idle.pct)
     cpu.iowait.push(cpuInfo.iowait.pct)
+    // cpu.idle.push(cpuInfo.idle.pct)
+    // cpu.total.push(cpuInfo.total.pct)
   })
 
   const cpuChartData = []
@@ -200,9 +206,11 @@ $(function () {
   getMetricData(mData => {
     const pData = dataProcessing(mData)
     createChart('cpu', pData)
+    createChart('memory', pData)
 
     registPollingGroup(data => {
       updateChart('cpu', data)
+      updateChart('memory', data)
     })
 
     poll()

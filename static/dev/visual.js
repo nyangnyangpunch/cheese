@@ -25,7 +25,25 @@ const createChart = (type, data) => {
     // },
     bindto: '#visual_' + type,
     data: {
+      x: 'x',
       columns: data[type].data
+    },
+    axis: {
+      x: {
+        type: 'timeseries',
+        tick: {
+          format (x) {
+            function padding (d) {
+              d = d.toString()
+              return d.length === 1 ? '0' + d : d
+            }
+            const _ = new Date(x)
+            const h = padding(_.getHours())
+            const m = padding(_.getMinutes())
+            return `${h}:${m}`
+          }
+        }
+      }
     }
   }
   console.log('Create', option)
@@ -86,15 +104,15 @@ const dataProcessing = data => {
     .forEach(d => {
     const cpuInfo = d._source.system.cpu
     cpuCategoryData.push(d._source['@timestamp'])
-    cpu.user.push(cpuInfo.user.pct)
-    cpu.system.push(cpuInfo.system.pct)
-    cpu.steal.push(cpuInfo.steal.pct)
-    cpu.irq.push(cpuInfo.irq.pct)
-    cpu.softirq.push(cpuInfo.softirq.pct)
-    cpu.nice.push(cpuInfo.nice.pct)
-    cpu.iowait.push(cpuInfo.iowait.pct)
-    // cpu.idle.push(cpuInfo.idle.pct)
-    // cpu.total.push(cpuInfo.total.pct)
+    cpu.user.push(cpuInfo.user.pct || 0)
+    cpu.system.push(cpuInfo.system.pct || 0)
+    cpu.steal.push(cpuInfo.steal.pct || 0)
+    cpu.irq.push(cpuInfo.irq.pct || 0)
+    cpu.softirq.push(cpuInfo.softirq.pct || 0)
+    cpu.nice.push(cpuInfo.nice.pct || 0)
+    cpu.iowait.push(cpuInfo.iowait.pct || 0)
+    // cpu.idle.push(cpuInfo.idle.pct || 0)
+    // cpu.total.push(cpuInfo.total.pct || 0)
   })
 
   const cpuChartData = []
@@ -111,8 +129,8 @@ const dataProcessing = data => {
     memoryCategoryData.push(d._source['@timestamp'])
     memory.total = memInfo.total
     memory.free = memInfo.free
-    memory.used.push(memInfo.used.pct)
-    memory.swap.push(memInfo.swap.pct)
+    memory.used.push(memInfo.used.pct || 0)
+    memory.swap.push(memInfo.swap.pct || 0)
   })
 
   const memoryChartData = []

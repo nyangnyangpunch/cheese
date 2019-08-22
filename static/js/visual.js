@@ -34,25 +34,6 @@ var createChart = function createChart(type, data) {
     data: {
       x: 'x',
       columns: [data[type].category].concat(_toConsumableArray(data[type].data))
-    },
-    axis: {
-      x: {
-        type: 'timeseries',
-        tick: {
-          format: function format(x) {
-            function padding(d) {
-              d = d.toString();
-              return d.length === 1 ? '0' + d : d;
-            }
-
-            var _ = new Date(x);
-
-            var h = padding(_.getHours());
-            var m = padding(_.getMinutes());
-            return "".concat(h, ":").concat(m);
-          }
-        }
-      }
     }
   };
   console.log('Create', option);
@@ -102,12 +83,26 @@ var dataProcessing = function dataProcessing(data) {
       errors: []
     }
   };
+
+  function timeToString(x) {
+    function padding(d) {
+      d = d.toString();
+      return d.length === 1 ? '0' + d : d;
+    }
+
+    var _ = new Date(x);
+
+    var h = padding(_.getHours());
+    var m = padding(_.getMinutes());
+    return "".concat(h, ":").concat(m);
+  }
+
   var cpuCategoryData = ['x'];
   dataList.filter(function (d) {
     return d._source.metricset.name === 'cpu';
   }).forEach(function (d) {
     var cpuInfo = d._source.system.cpu;
-    cpuCategoryData.push(d._source['@timestamp']);
+    cpuCategoryData.push(timeToString(d._source['@timestamp']));
     cpu.user.push(cpuInfo.user.pct || 0);
     cpu.system.push(cpuInfo.system.pct || 0);
     cpu.steal.push(cpuInfo.steal.pct || 0);
@@ -126,7 +121,7 @@ var dataProcessing = function dataProcessing(data) {
     return d._source.metricset.name === 'memory';
   }).forEach(function (d) {
     var memInfo = d._source.system.memory;
-    memoryCategoryData.push(d._source['@timestamp']);
+    memoryCategoryData.push(timeToString(d._source['@timestamp']));
     memory.total = memInfo.total;
     memory.free = memInfo.free;
     memory.used.push(memInfo.used.pct || 0);
@@ -140,7 +135,7 @@ var dataProcessing = function dataProcessing(data) {
     return d._source.metricset.name === 'network';
   }).forEach(function (d) {
     var networkInfo = d._source.system.network;
-    networkCategoryData.push(d._source['@timestamp']);
+    networkCategoryData.push(timeToString(d._source['@timestamp']));
     network["in"].dropped.push(networkInfo["in"].dropped);
     network["in"].bytes.push(networkInfo["in"].bytes);
     network["in"].packets.push(networkInfo["in"].packets);

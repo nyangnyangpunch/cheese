@@ -30,23 +30,6 @@ const createChart = (type, data) => {
         data[type].category,
         ...data[type].data
       ]
-    },
-    axis: {
-      x: {
-        type: 'timeseries',
-        tick: {
-          format (x) {
-            function padding (d) {
-              d = d.toString()
-              return d.length === 1 ? '0' + d : d
-            }
-            const _ = new Date(x)
-            const h = padding(_.getHours())
-            const m = padding(_.getMinutes())
-            return `${h}:${m}`
-          }
-        }
-      }
     }
   }
   console.log('Create', option)
@@ -102,6 +85,17 @@ const dataProcessing = data => {
       errors: []
     }
   }
+
+  function timeToString (x) {
+    function padding (d) {
+      d = d.toString()
+      return d.length === 1 ? '0' + d : d
+    }
+    const _ = new Date(x)
+    const h = padding(_.getHours())
+    const m = padding(_.getMinutes())
+    return `${h}:${m}`
+  }
   
 
   const cpuCategoryData = ['x']
@@ -109,7 +103,7 @@ const dataProcessing = data => {
     .filter(d => d._source.metricset.name === 'cpu')
     .forEach(d => {
     const cpuInfo = d._source.system.cpu
-    cpuCategoryData.push(d._source['@timestamp'])
+    cpuCategoryData.push(timeToString(d._source['@timestamp']))
     cpu.user.push(cpuInfo.user.pct || 0)
     cpu.system.push(cpuInfo.system.pct || 0)
     cpu.steal.push(cpuInfo.steal.pct || 0)
@@ -132,7 +126,7 @@ const dataProcessing = data => {
     .filter(d => d._source.metricset.name === 'memory')
     .forEach(d => {
     const memInfo = d._source.system.memory
-    memoryCategoryData.push(d._source['@timestamp'])
+    memoryCategoryData.push(timeToString(d._source['@timestamp']))
     memory.total = memInfo.total
     memory.free = memInfo.free
     memory.used.push(memInfo.used.pct || 0)
@@ -149,7 +143,7 @@ const dataProcessing = data => {
     .filter(d => d._source.metricset.name === 'network')
     .forEach(d => {
     const networkInfo = d._source.system.network
-    networkCategoryData.push(d._source['@timestamp'])
+    networkCategoryData.push(timeToString(d._source['@timestamp']))
     network.in.dropped.push(networkInfo.in.dropped)
     network.in.bytes.push(networkInfo.in.bytes)
     network.in.packets.push(networkInfo.in.packets)

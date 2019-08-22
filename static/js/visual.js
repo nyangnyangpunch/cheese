@@ -1,5 +1,13 @@
 "use strict";
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 /**
  * visual.js
  * 
@@ -18,41 +26,17 @@ var chartData = {
 };
 
 var createChart = function createChart(type, data) {
-  var option = {
-    title: {
-      text: type.toUpperCase() + ' Metric data'
-    },
-    tooltip: {
-      trigger: 'axis',
-      formatter: function formatter(params) {
-        return 'Value: ' + params[0].data;
-      },
-      axisPointer: {
-        animation: false
-      },
-      xAxis: {
-        type: 'category',
-        data: data.category
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [{
-        type: 'line',
-        data: data[type].series
-      }]
+  chartInstance[type] = c3.generate({
+    bindto: '#visual_' + type,
+    data: {
+      columns: data[type]
     }
-  };
-  chartInstance[type] = echarts.init(document.getElementById('visual_' + type));
-  chartInstance[type].setOption(option);
+  });
 };
 
 var updateChart = function updateChart(type, data) {
-  chartInstance[type].setOption({
-    xAxis: {
-      data: data.category
-    },
-    series: data[type].series
+  chartInstance[type].load({
+    columns: data[type]
   });
 };
 /**
@@ -88,17 +72,11 @@ var dataProcessing = function dataProcessing(data) {
   });
   var cpuChartData = [];
   Object.keys(cpu).forEach(function (k) {
-    cpuChartData.push({
-      name: k,
-      type: 'line',
-      data: cpu[k]
-    });
+    cpuChartData.push([k].concat(_toConsumableArray(cpu[k])));
   });
   var res = {
     category: timestamp,
-    cpu: {
-      series: cpuChartData
-    }
+    cpu: cpuChartData
   };
   console.log(res);
   return res;

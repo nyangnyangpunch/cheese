@@ -36,7 +36,7 @@ var createChart = function createChart(type, data) {
 
 var updateChart = function updateChart(type, data) {
   chartInstance[type].load({
-    columns: data[type]
+    columns: data[type].data
   });
 };
 /**
@@ -48,7 +48,6 @@ var updateChart = function updateChart(type, data) {
 
 var dataProcessing = function dataProcessing(data) {
   var dataList = data.body.hits.hits;
-  var timestamp = [];
   var cpu = {
     total: [],
     user: [],
@@ -77,14 +76,12 @@ var dataProcessing = function dataProcessing(data) {
       errors: []
     }
   };
-  dataList.forEach(function (d) {
-    timestamp.push(d._source['@timestamp']);
-  });
+  var cpuCategoryData = [];
   dataList.filter(function (d) {
     d._source.metricset.name === 'cpu';
   }).forEach(function (d) {
-    var cpuInfo = d._source.system.cpu; // const cores = cpuInfo.cores
-
+    var cpuInfo = d._source.system.cpu;
+    cpuCategoryData.push(d._source['@timestamp']);
     cpu.total.push(cpuInfo.total.pct);
     cpu.user.push(cpuInfo.user.pct);
     cpu.system.push(cpuInfo.system.pct);
@@ -96,10 +93,12 @@ var dataProcessing = function dataProcessing(data) {
   Object.keys(cpu).forEach(function (k) {
     cpuChartData.push([k].concat(_toConsumableArray(cpu[k])));
   });
+  var memoryCategoryData = [];
   dataList.filter(function (d) {
     d._source.metricset.name === 'memory';
   }).forEach(function (d) {
     var memInfo = d._source.system.memory;
+    memoryCategoryData.push(d._source['@timestamp']);
     memory.total = memInfo.total;
     memory.free = memInfo.free;
     memory.used.push(memInfo.used.pct);
@@ -108,10 +107,12 @@ var dataProcessing = function dataProcessing(data) {
   var memoryChartData = [];
   memoryChartData.push(['used'].concat(_toConsumableArray(memory.used)));
   memoryChartData.push(['swap'].concat(_toConsumableArray(memory.swap)));
+  var networkCategoryData = [];
   dataList.filter(function (d) {
     d._source.metricset.name === 'network';
   }).forEach(function (d) {
     var networkInfo = d._source.system.network;
+    networkCategoryData.push(d._source['@timestamp']);
     network["in"].dropped.push(networkInfo["in"].dropped);
     network["in"].bytes.push(networkInfo["in"].bytes);
     network["in"].packets.push(networkInfo["in"].packets);
@@ -131,10 +132,18 @@ var dataProcessing = function dataProcessing(data) {
     });
   });
   var res = {
-    category: timestamp,
-    cpu: cpuChartData,
-    memory: memoryChartData,
-    network: networkChartData
+    cpu: {
+      category: cpuCategoryData,
+      data: cpuChartData
+    },
+    memory: {
+      category: memoryCategoryData,
+      data: memoryChartData
+    },
+    network: {
+      category: networkCategoryData,
+      data: networkChartData
+    }
   };
   console.log(res);
   return res;

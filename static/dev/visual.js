@@ -29,7 +29,7 @@ const createChart = (type, data) => {
 
 const updateChart = (type, data) => {
   chartInstance[type].load({
-    columns: data[type]
+    columns: data[type].data
   })
 }
 
@@ -42,7 +42,6 @@ const updateChart = (type, data) => {
 const dataProcessing = data => {
   const dataList = data.body.hits.hits
 
-  const timestamp = []
   const cpu = {
     total: [],
     user: [],
@@ -73,16 +72,14 @@ const dataProcessing = data => {
       errors: []
     }
   }
-
-  dataList.forEach(d => {
-    timestamp.push(d._source['@timestamp'])
-  })
   
+
+  const cpuCategoryData = []
   dataList
     .filter(d => { d._source.metricset.name === 'cpu' })
     .forEach(d => {
     const cpuInfo = d._source.system.cpu
-    // const cores = cpuInfo.cores
+    cpuCategoryData.push(d._source['@timestamp'])
     cpu.total.push(cpuInfo.total.pct)
     cpu.user.push(cpuInfo.user.pct)
     cpu.system.push(cpuInfo.system.pct)
@@ -97,10 +94,12 @@ const dataProcessing = data => {
   })
 
 
+  const memoryCategoryData = []
   dataList
     .filter(d => { d._source.metricset.name === 'memory' })
     .forEach(d => {
     const memInfo = d._source.system.memory
+    memoryCategoryData.push(d._source['@timestamp'])
     memory.total = memInfo.total
     memory.free = memInfo.free
     memory.used.push(memInfo.used.pct)
@@ -112,10 +111,12 @@ const dataProcessing = data => {
   memoryChartData.push(['swap', ...memory.swap])
 
 
+  const networkCategoryData = []
   dataList
     .filter(d => { d._source.metricset.name === 'network' })
     .forEach(d => {
     const networkInfo = d._source.system.network
+    networkCategoryData.push(d._source['@timestamp'])
     network.in.dropped.push(networkInfo.in.dropped)
     network.in.bytes.push(networkInfo.in.bytes)
     network.in.packets.push(networkInfo.in.packets)
@@ -137,10 +138,18 @@ const dataProcessing = data => {
   })
 
   const res = {
-    category: timestamp,
-    cpu: cpuChartData,
-    memory: memoryChartData,
-    network: networkChartData
+    cpu: {
+      category: cpuCategoryData,
+      data: cpuChartData
+    },
+    memory: {
+      category: memoryCategoryData,
+      data: memoryChartData
+    },
+    network: {
+      category: networkCategoryData,
+      data: networkChartData
+    }
   }
 
   console.log(res)

@@ -37,12 +37,7 @@ var createChart = function createChart(type, data) {
     },
     axis: {
       x: {
-        type: 'category',
-        tick: {
-          culling: {
-            max: 10
-          }
-        }
+        type: 'category'
       }
     }
   };

@@ -232,3 +232,8 @@
 .c3-drag-zoom .extent {
   fill-opacity: 0.1;
 }
+
+/* Custom */
+.tick text {
+  display: none;
+}

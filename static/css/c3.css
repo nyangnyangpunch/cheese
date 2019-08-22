@@ -235,5 +235,5 @@
 
 /* Custom */
 .tick text {
-  display: none;
+  display: none !important;
 }

@@ -45,7 +45,7 @@ const updateChart = (type, data) => {
  * @param {any} data ES 조회 데이터
  */
 const dataProcessing = data => {
-  const dataList = data.body.hits.hits
+  const dataList = data.body.hits.hits.reverse()
 
   const cpu = {
     user: [],

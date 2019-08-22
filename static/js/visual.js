@@ -52,7 +52,7 @@ var updateChart = function updateChart(type, data) {
 
 
 var dataProcessing = function dataProcessing(data) {
-  var dataList = data.body.hits.hits;
+  var dataList = data.body.hits.hits.reverse();
   var cpu = {
     user: [],
     system: [],

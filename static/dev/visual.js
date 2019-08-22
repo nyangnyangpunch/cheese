@@ -79,7 +79,7 @@ const dataProcessing = data => {
 
   const cpuCategoryData = []
   dataList
-    .filter(d => { d._source.metricset.name === 'cpu' })
+    .filter(d => d._source.metricset.name === 'cpu')
     .forEach(d => {
     const cpuInfo = d._source.system.cpu
     cpuCategoryData.push(d._source['@timestamp'])
@@ -99,7 +99,7 @@ const dataProcessing = data => {
 
   const memoryCategoryData = []
   dataList
-    .filter(d => { d._source.metricset.name === 'memory' })
+    .filter(d => d._source.metricset.name === 'memory')
     .forEach(d => {
     const memInfo = d._source.system.memory
     memoryCategoryData.push(d._source['@timestamp'])
@@ -116,7 +116,7 @@ const dataProcessing = data => {
 
   const networkCategoryData = []
   dataList
-    .filter(d => { d._source.metricset.name === 'network' })
+    .filter(d => d._source.metricset.name === 'network')
     .forEach(d => {
     const networkInfo = d._source.system.network
     networkCategoryData.push(d._source['@timestamp'])

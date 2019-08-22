@@ -81,7 +81,7 @@ var dataProcessing = function dataProcessing(data) {
   };
   var cpuCategoryData = [];
   dataList.filter(function (d) {
-    d._source.metricset.name === 'cpu';
+    return d._source.metricset.name === 'cpu';
   }).forEach(function (d) {
     var cpuInfo = d._source.system.cpu;
     cpuCategoryData.push(d._source['@timestamp']);
@@ -98,7 +98,7 @@ var dataProcessing = function dataProcessing(data) {
   });
   var memoryCategoryData = [];
   dataList.filter(function (d) {
-    d._source.metricset.name === 'memory';
+    return d._source.metricset.name === 'memory';
   }).forEach(function (d) {
     var memInfo = d._source.system.memory;
     memoryCategoryData.push(d._source['@timestamp']);
@@ -112,7 +112,7 @@ var dataProcessing = function dataProcessing(data) {
   memoryChartData.push(['swap'].concat(_toConsumableArray(memory.swap)));
   var networkCategoryData = [];
   dataList.filter(function (d) {
-    d._source.metricset.name === 'network';
+    return d._source.metricset.name === 'network';
   }).forEach(function (d) {
     var networkInfo = d._source.system.network;
     networkCategoryData.push(d._source['@timestamp']);

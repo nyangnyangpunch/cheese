@@ -72,7 +72,7 @@ module.exports = app => {
         'sort': [
           { '@timestamp' : 'desc' }
         ],
-        'size': 500
+        'size': 360
       })
     } catch (e) {
       logger.error(e)

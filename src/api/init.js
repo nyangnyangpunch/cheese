@@ -30,17 +30,18 @@ module.exports = app => {
     res.json(resData)
   })
 
-  app.get(API_ENDPOINT + '/getMetric', async (_req, res) => {
+  app.get(API_ENDPOINT + '/getMetric', async (req, res) => {
+    let q = req.query.q
     let resData = null
     try {
-      resData = await es.search('metricbeat-*', {
+      resData = await es.requestSearch('metricbeat-*', '?q=' + q, {
         'query': {
           'bool': {
             'must': [
               {
                 'range': {
                   '@timestamp': {
-                    'gte': 'now-1h',
+                    'gte': 'now-12h',
                     'lte': 'now/m'
                   }
                 }
@@ -51,7 +52,7 @@ module.exports = app => {
         'sort': [
           { '@timestamp' : 'desc' }
         ],
-        size: 50
+        'size': 50
       })
     } catch (e) {
       logger.error(e)

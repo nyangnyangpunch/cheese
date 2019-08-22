@@ -19,43 +19,17 @@ const chartData = {
 }
 
 const createChart = (type, data) => {
-
-  const option = {
-    title: {
-      text: type.toUpperCase() + ' Metric data'
-    },
-    tooltip: {
-      trigger: 'axis',
-      formatter (params) {
-        return 'Value: ' + params[0].data
-      },
-      axisPointer: {
-        animation: false
-      },
-      xAxis: {
-        type: 'category',
-        data: data.category
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [{
-        type: 'line',
-        data: data[type].series
-      }]
+  chartInstance[type] = c3.generate({
+    bindto: '#visual_' + type,
+    data: {
+      columns: data[type]
     }
-  }
-
-  chartInstance[type] = echarts.init(document.getElementById('visual_' + type))
-  chartInstance[type].setOption(option)
+  })
 }
 
 const updateChart = (type, data) => {
-  chartInstance[type].setOption({
-    xAxis: {
-      data: data.category
-    },
-    series: data[type].series
+  chartInstance[type].load({
+    columns: data[type]
   })
 }
 
@@ -94,18 +68,12 @@ const dataProcessing = data => {
 
   const cpuChartData = []
   Object.keys(cpu).forEach(k => {
-    cpuChartData.push({
-      name: k,
-      type: 'line',
-      data: cpu[k]
-    })
+    cpuChartData.push([k, ...cpu[k]])
   })
 
   const res = {
     category: timestamp,
-    cpu: {
-      series: cpuChartData
-    }
+    cpu: cpuChartData
   }
 
   console.log(res)

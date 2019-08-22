@@ -26,7 +26,10 @@ const createChart = (type, data) => {
     bindto: '#visual_' + type,
     data: {
       x: 'x',
-      columns: data[type].data
+      columns: [
+        data[type].category,
+        ...data[type].data
+      ]
     },
     axis: {
       x: {
@@ -52,7 +55,10 @@ const createChart = (type, data) => {
 
 const updateChart = (type, data) => {
   chartInstance[type].load({
-    columns: data[type].data
+    columns: [
+      data[type].category,
+      ...data[type].data
+    ]
   })
 }
 
@@ -98,7 +104,7 @@ const dataProcessing = data => {
   }
   
 
-  const cpuCategoryData = []
+  const cpuCategoryData = ['x']
   dataList
     .filter(d => d._source.metricset.name === 'cpu')
     .forEach(d => {
@@ -121,7 +127,7 @@ const dataProcessing = data => {
   })
 
 
-  const memoryCategoryData = []
+  const memoryCategoryData = ['x']
   dataList
     .filter(d => d._source.metricset.name === 'memory')
     .forEach(d => {
@@ -138,7 +144,7 @@ const dataProcessing = data => {
   memoryChartData.push(['swap', ...memory.swap])
 
 
-  const networkCategoryData = []
+  const networkCategoryData = ['x']
   dataList
     .filter(d => d._source.metricset.name === 'network')
     .forEach(d => {

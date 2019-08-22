@@ -33,7 +33,7 @@ var createChart = function createChart(type, data) {
     bindto: '#visual_' + type,
     data: {
       x: 'x',
-      columns: data[type].data
+      columns: [data[type].category].concat(_toConsumableArray(data[type].data))
     },
     axis: {
       x: {
@@ -61,7 +61,7 @@ var createChart = function createChart(type, data) {
 
 var updateChart = function updateChart(type, data) {
   chartInstance[type].load({
-    columns: data[type].data
+    columns: [data[type].category].concat(_toConsumableArray(data[type].data))
   });
 };
 /**
@@ -102,7 +102,7 @@ var dataProcessing = function dataProcessing(data) {
       errors: []
     }
   };
-  var cpuCategoryData = [];
+  var cpuCategoryData = ['x'];
   dataList.filter(function (d) {
     return d._source.metricset.name === 'cpu';
   }).forEach(function (d) {
@@ -121,7 +121,7 @@ var dataProcessing = function dataProcessing(data) {
   Object.keys(cpu).forEach(function (k) {
     cpuChartData.push([k].concat(_toConsumableArray(cpu[k])));
   });
-  var memoryCategoryData = [];
+  var memoryCategoryData = ['x'];
   dataList.filter(function (d) {
     return d._source.metricset.name === 'memory';
   }).forEach(function (d) {
@@ -135,7 +135,7 @@ var dataProcessing = function dataProcessing(data) {
   var memoryChartData = [];
   memoryChartData.push(['used'].concat(_toConsumableArray(memory.used)));
   memoryChartData.push(['swap'].concat(_toConsumableArray(memory.swap)));
-  var networkCategoryData = [];
+  var networkCategoryData = ['x'];
   dataList.filter(function (d) {
     return d._source.metricset.name === 'network';
   }).forEach(function (d) {

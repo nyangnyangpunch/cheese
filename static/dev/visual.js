@@ -104,7 +104,8 @@ const dataProcessing = data => {
     const _ = new Date(x)
     const h = padding(_.getHours())
     const m = padding(_.getMinutes())
-    return `${h}:${m}`
+    const s = padding(_.getSeconds())
+    return `${h}:${m}:${s}`
   }
   
 

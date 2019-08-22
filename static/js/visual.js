@@ -104,7 +104,8 @@ var dataProcessing = function dataProcessing(data) {
 
     var h = padding(_.getHours());
     var m = padding(_.getMinutes());
-    return "".concat(h, ":").concat(m);
+    var s = padding(_.getSeconds());
+    return "".concat(h, ":").concat(m, ":").concat(s);
   }
 
   var cpuCategoryData = ['x'];

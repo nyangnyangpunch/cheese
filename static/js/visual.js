@@ -182,9 +182,6 @@ var getMetricData = function getMetricData(callback) {
   $.ajax({
     url: '/API/getMetric',
     type: 'GET',
-    data: {
-      q: 'cpu'
-    },
     dataType: 'JSON',
     success: function success(res) {
       callback(res);

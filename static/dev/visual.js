@@ -184,9 +184,6 @@ const getMetricData = (callback) => {
   $.ajax({
     url: '/API/getMetric',
     type: 'GET',
-    data: {
-      q: 'cpu'
-    },
     dataType: 'JSON',
     success (res) {
       callback(res)

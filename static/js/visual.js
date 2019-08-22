@@ -126,7 +126,7 @@ var dataProcessing = function dataProcessing(data) {
     out: []
   };
   Object.keys(network).forEach(function (k) {
-    network[k].forEach(function (nk) {
+    Object.keys(network[k]).forEach(function (nk) {
       networkChartData[k].push([k + ':' + nk].concat(_toConsumableArray(network[k][nk])));
     });
   });

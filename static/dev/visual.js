@@ -131,7 +131,7 @@ const dataProcessing = data => {
     out: []
   }
   Object.keys(network).forEach(k => {
-    network[k].forEach(nk => {
+    Object.keys(network[k]).forEach(nk => {
       networkChartData[k].push([k + ':' + nk, ...network[k][nk]])
     })
   })

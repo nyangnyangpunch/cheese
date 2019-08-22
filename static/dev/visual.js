@@ -19,15 +19,18 @@ const chartData = {
 }
 
 const createChart = (type, data) => {
-  chartInstance[type] = c3.generate({
+  const option = {
     bindto: '#visual_' + type,
     data: {
-      columns: data[type]
+      columns: data[type].data
     }
-  })
+  }
+  console.log('Create', option)
+  chartInstance[type] = c3.generate(option)
 }
 
 const updateChart = (type, data) => {
+  console.log('Update ' + type, data[type].data)
   chartInstance[type].load({
     columns: data[type].data
   })

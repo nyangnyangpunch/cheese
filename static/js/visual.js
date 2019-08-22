@@ -26,15 +26,18 @@ var chartData = {
 };
 
 var createChart = function createChart(type, data) {
-  chartInstance[type] = c3.generate({
+  var option = {
     bindto: '#visual_' + type,
     data: {
-      columns: data[type]
+      columns: data[type].data
     }
-  });
+  };
+  console.log('Create', option);
+  chartInstance[type] = c3.generate(option);
 };
 
 var updateChart = function updateChart(type, data) {
+  console.log('Update ' + type, data[type].data);
   chartInstance[type].load({
     columns: data[type].data
   });

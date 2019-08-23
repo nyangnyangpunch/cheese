@@ -37,6 +37,24 @@ module.exports = app => {
     res.json(response)
   })
 
+  app.post(API_ENDPOINT + '/deletePod', async (req, res) => {
+    const name = req.body.name
+    let response = null
+    logger.warning(`Delete pod - ${name}`)
+
+    try {
+      response = await executeCommand('kubectl', [
+        'delete',
+        'pod',
+        name
+      ])
+    } catch (e) {
+      logger.error(e)
+    }
+
+    res.json(response)
+  })
+
   app.get(API_ENDPOINT + '/getPods', async (_req, res) => {
     let resData = null
     try {

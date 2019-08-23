@@ -5,6 +5,7 @@
  */
 
 const showPodsList = pods => {
+  $('.delete').off()
   if (!pods) {
     $('#project').html(`
       <div class="text">프로젝트를 생성하세요! (아직 프로젝트가 존재하지 않습니다)</div>
@@ -40,12 +41,35 @@ const showPodsList = pods => {
             ${containers}
           </div>
           <div class="start">${pod.status.startTime}</div>
+          <div class="start">
+            <button class="button red delete" data-name="${pod.metadata.name}">Delete</button>
+          </div>
         </div>
       </div>
     `
   })
 
   $('#project').html(template)
+  $('.delete').on('click', function () {
+    const name = $(this).data('name')
+
+    if (name && confirm(`Delete ${name}?`)) {
+      $.ajax({
+        url: '/API/deletePod',
+        type: 'POST',
+        dataType: 'JSON',
+        data: { name },
+        success (res) {
+          if (res) {
+            location.reload()
+          }
+        },
+        error (jqXHR, state) {
+          console.error(jqXHR, state)
+        }
+      })
+    }
+  })
 }
 
 const getPods = () => {
@@ -93,15 +117,15 @@ $(function () {
         type: 'POST',
         dataType: 'JSON',
         data: { yaml },
-        success: function success(res) {
+        success(res) {
           if (res) {
             location.reload()
           }
         },
-        error: function error(jqXHR, state) {
+        error (jqXHR, state) {
           console.error(jqXHR, state)
         }
-      });
+      })
     } else {
       console.error('yaml is empty')
     }

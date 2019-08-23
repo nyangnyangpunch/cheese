@@ -115,15 +115,15 @@ const dataProcessing = data => {
     .forEach(d => {
     const cpuInfo = d._source.system.cpu
     cpuCategoryData.push(timeToString(d._source['@timestamp']))
-    cpu.user.push((cpuInfo.user.pct || 0) * 100)
-    cpu.system.push((cpuInfo.system.pct || 0) * 100)
-    cpu.steal.push((cpuInfo.steal.pct || 0) * 100)
-    cpu.irq.push((cpuInfo.irq.pct || 0) * 100)
-    cpu.softirq.push((cpuInfo.softirq.pct || 0) * 100)
-    cpu.nice.push((cpuInfo.nice.pct || 0) * 100)
-    cpu.iowait.push((cpuInfo.iowait.pct || 0) * 100)
-    // cpu.idle.push((cpuInfo.idle.pct || 0) * 100)
-    // cpu.total.push((cpuInfo.total.pct || 0) * 100)
+    cpu.user.push(parseFloat((cpuInfo.user.pct || 0) * 100).toFixed(2))
+    cpu.system.push(parseFloat((cpuInfo.system.pct || 0) * 100).toFixed(2))
+    cpu.steal.push(parseFloat((cpuInfo.steal.pct || 0) * 100).toFixed(2))
+    cpu.irq.push(parseFloat((cpuInfo.irq.pct || 0) * 100).toFixed(2))
+    cpu.softirq.push(parseFloat((cpuInfo.softirq.pct || 0) * 100).toFixed(2))
+    cpu.nice.push(parseFloat((cpuInfo.nice.pct || 0) * 100).toFixed(2))
+    cpu.iowait.push(parseFloat((cpuInfo.iowait.pct || 0) * 100).toFixed(2))
+    // cpu.idle.push(parseFloat((cpuInfo.idle.pct || 0) * 100).toFixed(2))
+    // cpu.total.push(parseFloat((cpuInfo.total.pct || 0) * 100).toFixed(2))
   })
 
   const cpuChartData = []
@@ -140,8 +140,8 @@ const dataProcessing = data => {
     memoryCategoryData.push(timeToString(d._source['@timestamp']))
     memory.total = memInfo.total
     memory.free = memInfo.free
-    memory.used.push((memInfo.used.pct || 0) * 100)
-    memory.swap.push((memInfo.swap.pct || 0) * 100)
+    memory.used.push(parseFloat((memInfo.used.pct || 0) * 100).toFixed(2))
+    memory.swap.push(parseFloat((memInfo.swap.pct || 0) * 100).toFixed(2))
   })
 
   const memoryChartData = []

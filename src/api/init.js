@@ -47,6 +47,7 @@ module.exports = app => {
         'delete',
         'pod',
         name,
+        '--wait=false',
         '--now'
       ])
     } catch (e) {

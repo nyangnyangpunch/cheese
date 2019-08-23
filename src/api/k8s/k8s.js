@@ -14,6 +14,9 @@ const getPods = async (namespace = 'default') => {
   return new Promise(resolve => {
     k8sApi.listNamespacedPod(namespace).then(({ body }) => {
       resolve(body)
+    }).catch(e => {
+      logger.error(e)
+      resolve(null)
     })
   })
 }

@@ -38,7 +38,7 @@ const createChart = (type, data, unit = '%') => {
     },
     tooltip: {
       format: {
-        value: val => unit + val
+        value: val => val + unit
       }
     }
   }

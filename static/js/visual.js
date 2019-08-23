@@ -44,7 +44,7 @@ var createChart = function createChart(type, data) {
     tooltip: {
       format: {
         value: function value(val) {
-          return unit + val;
+          return val + unit;
         }
       }
     }

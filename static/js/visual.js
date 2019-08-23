@@ -62,7 +62,7 @@ var createChart = function createChart(type, data) {
 var updateChart = function updateChart(type, data) {
   chartInstance[type].flow({
     columns: [data[type].category].concat(_toConsumableArray(data[type].data)),
-    duration: 1500,
+    duration: 500,
     length: 1
   });
 };

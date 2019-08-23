@@ -48,7 +48,7 @@ const updateChart = (type, data) => {
       data[type].category,
       ...data[type].data
     ],
-    duration: 1500,
+    duration: 500,
     length: 1
   })
 }

@@ -63,6 +63,46 @@ const getPods = () => {
   })
 }
 
+const SAMPLE_YAML =
+`apiVersion: v1
+kind: Pod
+metadata:
+    name: POD_NAME
+spec:
+    containers:
+    - name: CONTAINER_NAME
+        image: ubuntu:latest
+        ports:
+        - containerPort: 7777`
+
 $(function () {
   getPods()
+
+  $('#create').click(function () {
+    $('#collapse').toggleClass('show')
+    if ($('#collapse').hasClass('show')) {
+      $('#yaml').val(SAMPLE_YAML)
+    }
+  })
+
+  $('#yaml_submit').click(function () {
+    const yaml = $('#yaml').val()
+    if (yaml) {
+      $.ajax({
+        url: '/API/createPod',
+        type: 'POST',
+        dataType: 'JSON',
+        data: { yaml },
+        success: function success(res) {
+          console.log(res);
+        },
+        error: function error(jqXHR, state) {
+          console.error(jqXHR, state);
+          console.log();
+        }
+      });
+    } else {
+      console.error('yaml is empty')
+    }
+  })
 })

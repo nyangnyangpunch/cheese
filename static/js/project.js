@@ -37,6 +37,37 @@ var getPods = function getPods() {
   });
 };
 
+var SAMPLE_YAML = "apiVersion: v1\nkind: Pod\nmetadata:\n    name: POD_NAME\nspec:\n    containers:\n    - name: CONTAINER_NAME\n        image: ubuntu:latest\n        ports:\n        - containerPort: 7777";
 $(function () {
   getPods();
+  $('#create').click(function () {
+    $('#collapse').toggleClass('show');
+
+    if ($('#collapse').hasClass('show')) {
+      $('#yaml').val(SAMPLE_YAML);
+    }
+  });
+  $('#yaml_submit').click(function () {
+    var yaml = $('#yaml').val();
+
+    if (yaml) {
+      $.ajax({
+        url: '/API/createPod',
+        type: 'POST',
+        dataType: 'JSON',
+        data: {
+          yaml: yaml
+        },
+        success: function success(res) {
+          console.log(res);
+        },
+        error: function error(jqXHR, state) {
+          console.error(jqXHR, state);
+          console.log();
+        }
+      });
+    } else {
+      console.error('yaml is empty');
+    }
+  });
 });

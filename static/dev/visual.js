@@ -18,7 +18,7 @@ const chartData = {
   }
 }
 
-const createChart = (type, data, axis, unit = '%') => {
+const createChart = (type, data, _option = {}, unit = '%') => {
   const option = {
     // title: {
     //   text: type.toUpperCase()
@@ -31,7 +31,7 @@ const createChart = (type, data, axis, unit = '%') => {
         ...data[type].data
       ]
     },
-    axis,
+    ..._option,
     tooltip: {
       format: {
         value: val => val + unit
@@ -232,32 +232,44 @@ $(function () {
   getMetricData(mData => {
     const pData = dataProcessing(mData)
     createChart('cpu', pData, {
-      x: {
-        type: 'category',
-        label: 'Timestamp'
-      },
-      y: {
-        min: 0,
-        max: 100,
-        label: 'Usage'
+      axis: {
+        x: {
+          type: 'category',
+          label: 'Timestamp'
+        },
+        y: {
+          min: 0,
+          max: 100,
+          label: 'Usage'
+        }
       }
     })
 
     createChart('memory', pData, {
-      x: {
-        type: 'category',
-        label: 'Timestamp'
-      },
-      y: {
-        min: 0,
-        max: 100,
-        label: 'Usage'
+      axis: {
+        x: {
+          type: 'category',
+          label: 'Timestamp'
+        },
+        y: {
+          min: 0,
+          max: 100,
+          label: 'Usage'
+        }
       }
     })
+
+    createChart('network', pData, {
+      types: {
+        in: 'area',
+        out: 'area'
+      }
+    }, 'Mbit/s')
 
     registPollingGroup(data => {
       updateChart('cpu', data)
       updateChart('memory', data)
+      updateChart('network', data)
     })
 
     poll()

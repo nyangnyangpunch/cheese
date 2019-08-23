@@ -8,6 +8,12 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /**
  * visual.js
  * 
@@ -25,9 +31,12 @@ var chartData = {
   }
 };
 
-var createChart = function createChart(type, data, axis) {
+var createChart = function createChart(type, data) {
+  var _option = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
   var unit = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '%';
-  var option = {
+
+  var option = _objectSpread({
     // title: {
     //   text: type.toUpperCase()
     // },
@@ -35,8 +44,8 @@ var createChart = function createChart(type, data, axis) {
     data: {
       x: 'x',
       columns: [data[type].category].concat(_toConsumableArray(data[type].data))
-    },
-    axis: axis,
+    }
+  }, _option, {
     tooltip: {
       format: {
         value: function value(val) {
@@ -44,7 +53,8 @@ var createChart = function createChart(type, data, axis) {
         }
       }
     }
-  };
+  });
+
   console.log('Create', option);
   chartInstance[type] = c3.generate(option);
 };
@@ -228,30 +238,41 @@ $(function () {
   getMetricData(function (mData) {
     var pData = dataProcessing(mData);
     createChart('cpu', pData, {
-      x: {
-        type: 'category',
-        label: 'Timestamp'
-      },
-      y: {
-        min: 0,
-        max: 100,
-        label: 'Usage'
+      axis: {
+        x: {
+          type: 'category',
+          label: 'Timestamp'
+        },
+        y: {
+          min: 0,
+          max: 100,
+          label: 'Usage'
+        }
       }
     });
     createChart('memory', pData, {
-      x: {
-        type: 'category',
-        label: 'Timestamp'
-      },
-      y: {
-        min: 0,
-        max: 100,
-        label: 'Usage'
+      axis: {
+        x: {
+          type: 'category',
+          label: 'Timestamp'
+        },
+        y: {
+          min: 0,
+          max: 100,
+          label: 'Usage'
+        }
       }
     });
+    createChart('network', pData, {
+      types: {
+        "in": 'area',
+        out: 'area'
+      }
+    }, 'Mbit/s');
     registPollingGroup(function (data) {
       updateChart('cpu', data);
       updateChart('memory', data);
+      updateChart('network', data);
     });
     poll();
   });

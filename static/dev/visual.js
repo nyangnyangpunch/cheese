@@ -48,7 +48,7 @@ const updateChart = (type, data) => {
       data[type].category,
       ...data[type].data
     ],
-    duration: 500,
+    duration: 250,
     length: 1
   })
 }
@@ -210,7 +210,7 @@ const poll = (tick = 5000) => {
     })
 
     if (true) {
-      requestAnimationFrame(poll)
+      poll()
     }
   }, tick)
 }
@@ -278,6 +278,6 @@ $(function () {
       updateChart('network', data)
     })
 
-    requestAnimationFrame(poll)
+    poll()
   })
 })

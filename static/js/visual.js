@@ -62,7 +62,7 @@ var createChart = function createChart(type, data) {
 var updateChart = function updateChart(type, data) {
   chartInstance[type].flow({
     columns: [data[type].category].concat(_toConsumableArray(data[type].data)),
-    duration: 500,
+    duration: 250,
     length: 1
   });
 };
@@ -217,7 +217,7 @@ var poll = function poll() {
     });
 
     if (true) {
-      requestAnimationFrame(poll);
+      poll();
     }
   }, tick);
 };
@@ -281,6 +281,6 @@ $(function () {
       updateChart('memory', data);
       updateChart('network', data);
     });
-    requestAnimationFrame(poll);
+    poll();
   });
 });

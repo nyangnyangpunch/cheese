@@ -67,13 +67,13 @@ const SAMPLE_YAML =
 `apiVersion: v1
 kind: Pod
 metadata:
-    name: POD_NAME
+  name: POD_NAME
 spec:
-    containers:
-    - name: CONTAINER_NAME
-        image: ubuntu:latest
-        ports:
-        - containerPort: 7777`
+  containers:
+  - name: CONTAINER_NAME
+      image: ubuntu:latest
+      ports:
+      - containerPort: 7777`
 
 $(function () {
   getPods()

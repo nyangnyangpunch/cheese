@@ -37,7 +37,7 @@ var getPods = function getPods() {
   });
 };
 
-var SAMPLE_YAML = "apiVersion: v1\nkind: Pod\nmetadata:\n    name: POD_NAME\nspec:\n    containers:\n    - name: CONTAINER_NAME\n        image: ubuntu:latest\n        ports:\n        - containerPort: 7777";
+var SAMPLE_YAML = "apiVersion: v1\nkind: Pod\nmetadata:\n  name: POD_NAME\nspec:\n  containers:\n  - name: CONTAINER_NAME\n      image: ubuntu:latest\n      ports:\n      - containerPort: 7777";
 $(function () {
   getPods();
   $('#create').click(function () {

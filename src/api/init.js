@@ -24,7 +24,7 @@ module.exports = app => {
           }
         })
       })
-      response = await executeCommand('chdir')
+
       response = await executeCommand('kubectl', [
         'create',
         '-f',

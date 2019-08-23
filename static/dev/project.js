@@ -87,6 +87,16 @@ const getPods = () => {
   })
 }
 
+const poll = (tick = 5000) => {
+  setTimeout(() => {
+    getPods()
+
+    if (__globalPollPod) {
+      poll()
+    }
+  }, tick)
+}
+
 const SAMPLE_YAML =
 `apiVersion: v1
 kind: Pod

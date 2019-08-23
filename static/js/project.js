@@ -61,6 +61,17 @@ var getPods = function getPods() {
   });
 };
 
+var poll = function poll() {
+  var tick = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 5000;
+  setTimeout(function () {
+    getPods();
+
+    if (__globalPollPod) {
+      poll();
+    }
+  }, tick);
+};
+
 var SAMPLE_YAML = "apiVersion: v1\nkind: Pod\nmetadata:\n  name: POD_NAME\nspec:\n  containers:\n  - name: CONTAINER_NAME\n    image: ubuntu\n    ports:\n    - containerPort: 7777";
 $(function () {
   getPods();

@@ -54,6 +54,7 @@
 .pod .start {
   font-size: .9rem;
   color: #555;
+  margin-top: .5rem;
 }
 
 .yaml-area {

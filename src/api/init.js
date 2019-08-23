@@ -46,7 +46,8 @@ module.exports = app => {
       response = await executeCommand('kubectl', [
         'delete',
         'pod',
-        name
+        name,
+        '--wait=false'
       ])
     } catch (e) {
       logger.error(e)

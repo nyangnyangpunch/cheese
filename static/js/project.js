@@ -59,11 +59,12 @@ $(function () {
           yaml: yaml
         },
         success: function success(res) {
-          console.log(res);
+          if (res) {
+            location.reload();
+          }
         },
         error: function error(jqXHR, state) {
           console.error(jqXHR, state);
-          console.log();
         }
       });
     } else {

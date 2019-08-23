@@ -1,12 +1,15 @@
 const { logger } = require('./util/logger')
 const es = require('./api/elastic/elasticsearch')
 
+const bodyParser = require('body-parser')
 const express = require('express')
 const config = require('config')
 const path = require('path')
 
 // 서버 초기화 스크립트
 module.exports = app => {
+  app.use(bodyParser.urlencoded({extended: false}))
+  app.use(bodyParser.json())
   // 서버 접속 로깅
   app.use('*', (_, res, next) => {
     const afterResponse = () => {

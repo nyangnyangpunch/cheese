@@ -10,6 +10,7 @@ const EOL = require('os').EOL
  * @return {Promise}
  */
 const executeCommand = (cmd, args) => {
+  logger.info(`executeCommand: ${cmd} ${(args || []).join(' ')}`)
   let responseData = {
     stdout: '',
     stderr: '',

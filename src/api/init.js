@@ -1,18 +1,35 @@
 const { logger } = require('../util/logger')
 const { executeCommand } = require('../util/command')
+
 const es = require('./elastic/elasticsearch')
 const k8s = require('./k8s/k8s')
+const path = require('path')
+const fs = require('fs')
 const API_ENDPOINT = '/API'
+const YAML_FILE = 'cheese.yaml'
 
 module.exports = app => {
-  app.get(API_ENDPOINT + '/testApi', async (req, res) => {
-    const text = req.query.text.split(' ')
-    const cmd = text[0]
-    const args = text.slice(1)
-    logger.debug(`${cmd} ${args}`)
+  app.post(API_ENDPOINT + '/createPod', async (req, res) => {
+    const yaml = req.body.yaml
+    let response = null
+    logger.info('Create pod - yaml\n' + yaml)
 
     try {
-      var response = await executeCommand(cmd, args)
+      await new Promise ((resolve, reject) => {
+        fs.writeFile(path.resolve(global.__root, YAML_FILE), yaml, err => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve()
+          }
+        })
+      })
+      response = await executeCommand('chdir')
+      response = await executeCommand('kubectl', [
+        'create',
+        '-f',
+        path.resolve(global.__root, YAML_FILE)
+      ])
     } catch (e) {
       logger.error(e)
     }

@@ -210,7 +210,7 @@ const poll = (tick = 5000) => {
     })
 
     if (true) {
-      poll()
+      requestAnimationFrame(poll)
     }
   }, tick)
 }
@@ -278,6 +278,6 @@ $(function () {
       updateChart('network', data)
     })
 
-    poll()
+    requestAnimationFrame(poll)
   })
 })

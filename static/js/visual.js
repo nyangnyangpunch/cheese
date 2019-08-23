@@ -217,7 +217,7 @@ var poll = function poll() {
     });
 
     if (true) {
-      poll();
+      requestAnimationFrame(poll);
     }
   }, tick);
 };
@@ -281,6 +281,6 @@ $(function () {
       updateChart('memory', data);
       updateChart('network', data);
     });
-    poll();
+    requestAnimationFrame(poll);
   });
 });

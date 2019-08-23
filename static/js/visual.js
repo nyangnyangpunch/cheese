@@ -61,8 +61,9 @@ var createChart = function createChart(type, data) {
 
 var updateChart = function updateChart(type, data) {
   chartInstance[type].flow({
+    columns: [data[type].category].concat(_toConsumableArray(data[type].data)),
     duration: 1500,
-    columns: [data[type].category].concat(_toConsumableArray(data[type].data))
+    length: 1
   });
 };
 /**
@@ -73,6 +74,7 @@ var updateChart = function updateChart(type, data) {
 
 
 var dataProcessing = function dataProcessing(data) {
+  var all = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
   var dataList = data.body.hits.hits.reverse();
   var cpu = {
     user: [],
@@ -135,7 +137,7 @@ var dataProcessing = function dataProcessing(data) {
   });
   var cpuChartData = [];
   Object.keys(cpu).forEach(function (k) {
-    cpuChartData.push([k].concat(_toConsumableArray(cpu[k])));
+    cpuChartData.push([k].concat(_toConsumableArray(all ? cpu[k] : [cpu[k].pop()])));
   });
   var memoryCategoryData = ['x'];
   dataList.filter(function (d) {
@@ -149,8 +151,8 @@ var dataProcessing = function dataProcessing(data) {
     memory.swap.push(parseFloat((memInfo.swap.pct || 0) * 100).toFixed(2));
   });
   var memoryChartData = [];
-  memoryChartData.push(['used'].concat(_toConsumableArray(memory.used)));
-  memoryChartData.push(['swap'].concat(_toConsumableArray(memory.swap)));
+  memoryChartData.push(['used'].concat(_toConsumableArray(all ? memory.used : [memory.used.pop()])));
+  memoryChartData.push(['swap'].concat(_toConsumableArray(all ? memory.swap : [memory.swap.pop()])));
   var networkCategoryData = ['x'];
   dataList.filter(function (d) {
     return d._source.metricset.name === 'network';
@@ -177,7 +179,7 @@ var dataProcessing = function dataProcessing(data) {
           value.push(v);
         }
       });
-      networkChartData.push([k + ':' + nk].concat(value));
+      networkChartData.push([k + ':' + nk].concat(_toConsumableArray(all ? value : [value.pop()])));
     });
   });
   var res = {
@@ -208,7 +210,7 @@ var poll = function poll() {
   var tick = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 5000;
   setTimeout(function () {
     getMetricData(function (data) {
-      var pData = dataProcessing(data);
+      var pData = dataProcessing(data, false);
       pollingGroup.forEach(function (h) {
         return h(pData);
       });

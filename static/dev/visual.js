@@ -44,11 +44,12 @@ const createChart = (type, data, _option = {}, unit = '%') => {
 
 const updateChart = (type, data) => {
   chartInstance[type].flow({
-    duration: 1500,
     columns: [
       data[type].category,
       ...data[type].data
-    ]
+    ],
+    duration: 1500,
+    length: 1
   })
 }
 
@@ -58,7 +59,7 @@ const updateChart = (type, data) => {
  * 
  * @param {any} data ES 조회 데이터
  */
-const dataProcessing = data => {
+const dataProcessing = (data, all = true) => {
   const dataList = data.body.hits.hits.reverse()
 
   const cpu = {
@@ -125,7 +126,7 @@ const dataProcessing = data => {
 
   const cpuChartData = []
   Object.keys(cpu).forEach(k => {
-    cpuChartData.push([k, ...cpu[k]])
+    cpuChartData.push([k, ...(all ? cpu[k] : [cpu[k].pop()])])
   })
 
 
@@ -142,8 +143,8 @@ const dataProcessing = data => {
   })
 
   const memoryChartData = []
-  memoryChartData.push(['used', ...memory.used])
-  memoryChartData.push(['swap', ...memory.swap])
+  memoryChartData.push(['used', ...(all ? memory.used : [memory.used.pop()])])
+  memoryChartData.push(['swap', ...(all ? memory.swap : [memory.swap.pop()])])
 
 
   const networkCategoryData = ['x']
@@ -173,7 +174,7 @@ const dataProcessing = data => {
           value.push(v)
         }
       })
-      networkChartData.push([k + ':' + nk, ...value])
+      networkChartData.push([k + ':' + nk, ...(all ? value : [value.pop()])])
     })
   })
 
@@ -204,7 +205,7 @@ const registPollingGroup = (handler) => {
 const poll = (tick = 5000) => {
   setTimeout(() => {
     getMetricData(data => {
-      const pData = dataProcessing(data)
+      const pData = dataProcessing(data, false)
       pollingGroup.forEach(h => h(pData))
     })
 

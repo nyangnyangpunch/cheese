@@ -265,30 +265,30 @@ $(function () {
       }
     })
 
-    createChart('network', pData, {
-      x: {
-        type: 'category',
-        label: 'Timestamp'
-      },
-      y: {
-        label: 'Usage'
-      },
-      types: {
-        'in:dropped': 'area',
-        'in:bytes': 'area',
-        'in:packets': 'area',
-        'in:errors': 'area',
-        'out:dropped': 'area',
-        'out:bytes': 'area',
-        'out:packets': 'area',
-        'out:errors': 'area',
-      }
-    }, 'Mbit/s')
+    // createChart('network', pData, {
+    //   x: {
+    //     type: 'category',
+    //     label: 'Timestamp'
+    //   },
+    //   y: {
+    //     label: 'Usage'
+    //   },
+    //   types: {
+    //     'in:dropped': 'area',
+    //     'in:bytes': 'area',
+    //     'in:packets': 'area',
+    //     'in:errors': 'area',
+    //     'out:dropped': 'area',
+    //     'out:bytes': 'area',
+    //     'out:packets': 'area',
+    //     'out:errors': 'area',
+    //   }
+    // }, 'Mbit/s')
 
     registPollingGroup(data => {
       updateChart('cpu', data)
       updateChart('memory', data)
-      updateChart('network', data)
+      // updateChart('network', data)
     })
 
     poll()

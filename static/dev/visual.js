@@ -267,8 +267,14 @@ $(function () {
 
     createChart('network', pData, {
       types: {
-        in: 'area',
-        out: 'area'
+        'in:dropped': 'area',
+        'in:bytes': 'area',
+        'in:packets': 'area',
+        'in:errors': 'area',
+        'out:dropped': 'area',
+        'out:bytes': 'area',
+        'out:packets': 'area',
+        'out:errors': 'area',
       }
     }, 'Mbit/s')
 

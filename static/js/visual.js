@@ -159,14 +159,14 @@ var dataProcessing = function dataProcessing(data) {
   }).forEach(function (d) {
     var networkInfo = d._source.system.network;
     networkCategoryData.push(timeToString(d._source['@timestamp']));
-    network["in"].dropped.push(networkInfo["in"].dropped);
-    network["in"].bytes.push(networkInfo["in"].bytes);
-    network["in"].packets.push(networkInfo["in"].packets);
-    network["in"].errors.push(networkInfo["in"].errors);
-    network.out.dropped.push(networkInfo.out.dropped);
-    network.out.bytes.push(networkInfo.out.bytes);
-    network.out.packets.push(networkInfo.out.packets);
-    network.out.errors.push(networkInfo.out.errors);
+    network["in"].dropped.push((networkInfo["in"].dropped || 0) + '');
+    network["in"].bytes.push((networkInfo["in"].bytes || 0) + '');
+    network["in"].packets.push((networkInfo["in"].packets || 0) + '');
+    network["in"].errors.push((networkInfo["in"].errors || 0) + '');
+    network.out.dropped.push((networkInfo.out.dropped || 0) + '');
+    network.out.bytes.push((networkInfo.out.bytes || 0) + '');
+    network.out.packets.push((networkInfo.out.packets || 0) + '');
+    network.out.errors.push((networkInfo.out.errors || 0) + '');
   });
   var networkChartData = [];
   Object.keys(network).forEach(function (k) {

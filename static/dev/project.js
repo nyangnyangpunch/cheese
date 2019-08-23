@@ -71,9 +71,9 @@ metadata:
 spec:
   containers:
   - name: CONTAINER_NAME
-      image: ubuntu:latest
-      ports:
-      - containerPort: 7777`
+    image: ubuntu
+    ports:
+    - containerPort: 7777`
 
 $(function () {
   getPods()

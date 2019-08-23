@@ -1,11 +1,5 @@
 "use strict";
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -31,8 +25,8 @@ var chartData = {
   }
 };
 
-var createChart = function createChart(type, data, min, max) {
-  var unit = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '%';
+var createChart = function createChart(type, data, axis) {
+  var unit = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '%';
   var option = {
     // title: {
     //   text: type.toUpperCase()
@@ -42,15 +36,7 @@ var createChart = function createChart(type, data, min, max) {
       x: 'x',
       columns: [data[type].category].concat(_toConsumableArray(data[type].data))
     },
-    axis: {
-      x: {
-        type: 'category'
-      },
-      y: _objectSpread({}, min !== undefined && max != undefined && {
-        min: min,
-        max: max
-      })
-    },
+    axis: axis,
     tooltip: {
       format: {
         value: function value(val) {
@@ -240,8 +226,24 @@ var getMetricData = function getMetricData(callback) {
 $(function () {
   getMetricData(function (mData) {
     var pData = dataProcessing(mData);
-    createChart('cpu', pData, 0, 100);
-    createChart('memory', pData, 0, 100);
+    createChart('cpu', pData, {
+      x: {
+        type: 'category'
+      },
+      y: {
+        min: 0,
+        max: 100
+      }
+    });
+    createChart('memory', pData, {
+      x: {
+        type: 'category'
+      },
+      y: {
+        min: 0,
+        max: 100
+      }
+    });
     registPollingGroup(function (data) {
       updateChart('cpu', data);
       updateChart('memory', data);

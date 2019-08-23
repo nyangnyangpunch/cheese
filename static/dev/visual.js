@@ -18,7 +18,7 @@ const chartData = {
   }
 }
 
-const createChart = (type, data, min, max, unit = '%') => {
+const createChart = (type, data, axis, unit = '%') => {
   const option = {
     // title: {
     //   text: type.toUpperCase()
@@ -31,14 +31,7 @@ const createChart = (type, data, min, max, unit = '%') => {
         ...data[type].data
       ]
     },
-    axis: {
-      x: {
-        type: 'category'
-      },
-      y: {
-        ...(min !== undefined && max != undefined) && { min, max }
-      }
-    },
+    axis,
     tooltip: {
       format: {
         value: val => val + unit
@@ -237,8 +230,25 @@ const getMetricData = (callback) => {
 $(function () {
   getMetricData(mData => {
     const pData = dataProcessing(mData)
-    createChart('cpu', pData, 0, 100)
-    createChart('memory', pData, 0, 100)
+    createChart('cpu', pData, {
+      x: {
+        type: 'category'
+      },
+      y: {
+        min: 0,
+        max: 100
+      }
+    })
+
+    createChart('memory', pData, {
+      x: {
+        type: 'category'
+      },
+      y: {
+        min: 0,
+        max: 100
+      }
+    })
 
     registPollingGroup(data => {
       updateChart('cpu', data)

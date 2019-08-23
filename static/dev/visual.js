@@ -18,7 +18,7 @@ const chartData = {
   }
 }
 
-const createChart = (type, data) => {
+const createChart = (type, data, unit = '%') => {
   const option = {
     // title: {
     //   text: type.toUpperCase()
@@ -34,6 +34,11 @@ const createChart = (type, data) => {
     axis: {
       x: {
         type: 'category'
+      }
+    },
+    tooltip: {
+      format: {
+        value: val => unit + val
       }
     }
   }
@@ -110,15 +115,15 @@ const dataProcessing = data => {
     .forEach(d => {
     const cpuInfo = d._source.system.cpu
     cpuCategoryData.push(timeToString(d._source['@timestamp']))
-    cpu.user.push(cpuInfo.user.pct || 0)
-    cpu.system.push(cpuInfo.system.pct || 0)
-    cpu.steal.push(cpuInfo.steal.pct || 0)
-    cpu.irq.push(cpuInfo.irq.pct || 0)
-    cpu.softirq.push(cpuInfo.softirq.pct || 0)
-    cpu.nice.push(cpuInfo.nice.pct || 0)
-    cpu.iowait.push(cpuInfo.iowait.pct || 0)
-    // cpu.idle.push(cpuInfo.idle.pct || 0)
-    // cpu.total.push(cpuInfo.total.pct || 0)
+    cpu.user.push((cpuInfo.user.pct || 0) * 100)
+    cpu.system.push((cpuInfo.system.pct || 0) * 100)
+    cpu.steal.push((cpuInfo.steal.pct || 0) * 100)
+    cpu.irq.push((cpuInfo.irq.pct || 0) * 100)
+    cpu.softirq.push((cpuInfo.softirq.pct || 0) * 100)
+    cpu.nice.push((cpuInfo.nice.pct || 0) * 100)
+    cpu.iowait.push((cpuInfo.iowait.pct || 0) * 100)
+    // cpu.idle.push((cpuInfo.idle.pct || 0) * 100)
+    // cpu.total.push((cpuInfo.total.pct || 0) * 100)
   })
 
   const cpuChartData = []
@@ -135,8 +140,8 @@ const dataProcessing = data => {
     memoryCategoryData.push(timeToString(d._source['@timestamp']))
     memory.total = memInfo.total
     memory.free = memInfo.free
-    memory.used.push(memInfo.used.pct || 0)
-    memory.swap.push(memInfo.swap.pct || 0)
+    memory.used.push((memInfo.used.pct || 0) * 100)
+    memory.swap.push((memInfo.swap.pct || 0) * 100)
   })
 
   const memoryChartData = []

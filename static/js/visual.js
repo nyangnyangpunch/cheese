@@ -26,6 +26,7 @@ var chartData = {
 };
 
 var createChart = function createChart(type, data) {
+  var unit = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '%';
   var option = {
     // title: {
     //   text: type.toUpperCase()
@@ -38,6 +39,13 @@ var createChart = function createChart(type, data) {
     axis: {
       x: {
         type: 'category'
+      }
+    },
+    tooltip: {
+      format: {
+        value: function value(val) {
+          return unit + val;
+        }
       }
     }
   };
@@ -109,14 +117,14 @@ var dataProcessing = function dataProcessing(data) {
   }).forEach(function (d) {
     var cpuInfo = d._source.system.cpu;
     cpuCategoryData.push(timeToString(d._source['@timestamp']));
-    cpu.user.push(cpuInfo.user.pct || 0);
-    cpu.system.push(cpuInfo.system.pct || 0);
-    cpu.steal.push(cpuInfo.steal.pct || 0);
-    cpu.irq.push(cpuInfo.irq.pct || 0);
-    cpu.softirq.push(cpuInfo.softirq.pct || 0);
-    cpu.nice.push(cpuInfo.nice.pct || 0);
-    cpu.iowait.push(cpuInfo.iowait.pct || 0); // cpu.idle.push(cpuInfo.idle.pct || 0)
-    // cpu.total.push(cpuInfo.total.pct || 0)
+    cpu.user.push((cpuInfo.user.pct || 0) * 100);
+    cpu.system.push((cpuInfo.system.pct || 0) * 100);
+    cpu.steal.push((cpuInfo.steal.pct || 0) * 100);
+    cpu.irq.push((cpuInfo.irq.pct || 0) * 100);
+    cpu.softirq.push((cpuInfo.softirq.pct || 0) * 100);
+    cpu.nice.push((cpuInfo.nice.pct || 0) * 100);
+    cpu.iowait.push((cpuInfo.iowait.pct || 0) * 100); // cpu.idle.push((cpuInfo.idle.pct || 0) * 100)
+    // cpu.total.push((cpuInfo.total.pct || 0) * 100)
   });
   var cpuChartData = [];
   Object.keys(cpu).forEach(function (k) {
@@ -130,8 +138,8 @@ var dataProcessing = function dataProcessing(data) {
     memoryCategoryData.push(timeToString(d._source['@timestamp']));
     memory.total = memInfo.total;
     memory.free = memInfo.free;
-    memory.used.push(memInfo.used.pct || 0);
-    memory.swap.push(memInfo.swap.pct || 0);
+    memory.used.push((memInfo.used.pct || 0) * 100);
+    memory.swap.push((memInfo.swap.pct || 0) * 100);
   });
   var memoryChartData = [];
   memoryChartData.push(['used'].concat(_toConsumableArray(memory.used)));

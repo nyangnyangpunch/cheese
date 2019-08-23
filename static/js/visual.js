@@ -50,7 +50,8 @@ var createChart = function createChart(type, data, axis) {
 };
 
 var updateChart = function updateChart(type, data) {
-  chartInstance[type].load({
+  chartInstance[type].flow({
+    duration: 1500,
     columns: [data[type].category].concat(_toConsumableArray(data[type].data))
   });
 };
@@ -228,20 +229,24 @@ $(function () {
     var pData = dataProcessing(mData);
     createChart('cpu', pData, {
       x: {
-        type: 'category'
+        type: 'category',
+        label: 'Timestamp'
       },
       y: {
         min: 0,
-        max: 100
+        max: 100,
+        label: 'Usage'
       }
     });
     createChart('memory', pData, {
       x: {
-        type: 'category'
+        type: 'category',
+        label: 'Timestamp'
       },
       y: {
         min: 0,
-        max: 100
+        max: 100,
+        label: 'Usage'
       }
     });
     registPollingGroup(function (data) {

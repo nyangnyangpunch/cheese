@@ -166,13 +166,18 @@ var dataProcessing = function dataProcessing(data) {
     network.out.packets.push(networkInfo.out.packets);
     network.out.errors.push(networkInfo.out.errors);
   });
-  var networkChartData = {
-    "in": [],
-    out: []
-  };
+  var networkChartData = [];
   Object.keys(network).forEach(function (k) {
     Object.keys(network[k]).forEach(function (nk) {
-      networkChartData[k].push([k + ':' + nk].concat(_toConsumableArray(network[k][nk])));
+      var value = [];
+      network[k][nk].forEach(function (v) {
+        if (nk === 'out') {
+          value.push(v * -1);
+        } else {
+          value.push(v);
+        }
+      });
+      networkChartData.push([k + ':' + nk].concat(value));
     });
   });
   var res = {

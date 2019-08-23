@@ -162,13 +162,18 @@ const dataProcessing = data => {
     network.out.errors.push(networkInfo.out.errors)
   })
 
-  const networkChartData = {
-    in: [],
-    out: []
-  }
+  const networkChartData = []
   Object.keys(network).forEach(k => {
     Object.keys(network[k]).forEach(nk => {
-      networkChartData[k].push([k + ':' + nk, ...network[k][nk]])
+      let value = []
+      network[k][nk].forEach(v => {
+        if (nk === 'out') {
+          value.push(v * -1)
+        } else {
+          value.push(v)
+        }
+      })
+      networkChartData.push([k + ':' + nk, ...value])
     })
   })
 

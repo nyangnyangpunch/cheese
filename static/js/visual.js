@@ -216,7 +216,7 @@ var poll = function poll() {
       });
     });
 
-    if (true) {
+    if (__globalPollControl) {
       poll();
     }
   }, tick);

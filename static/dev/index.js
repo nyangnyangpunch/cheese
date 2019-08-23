@@ -1,3 +1,4 @@
+var __globalPollControl = false
 const menuList = [
   {
     target: 'project',
@@ -25,6 +26,7 @@ const menuList = [
 const initMenu = () => {
   menuList.forEach(({ target, name }) => {
     $(`#menu_${target}`).click(function (event) {
+      __globalPollControl = target === 'visual'
       event.stopPropagation()
       $('.drawer-item').removeClass('active')
       $(`#menu_${target}`).addClass('active')

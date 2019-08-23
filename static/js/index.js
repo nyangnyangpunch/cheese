@@ -1,5 +1,6 @@
 "use strict";
 
+var __globalPollControl = false;
 var menuList = [{
   target: 'project',
   name: 'Project'
@@ -23,6 +24,7 @@ var initMenu = function initMenu() {
     var target = _ref.target,
         name = _ref.name;
     $("#menu_".concat(target)).click(function (event) {
+      __globalPollControl = target === 'visual';
       event.stopPropagation();
       $('.drawer-item').removeClass('active');
       $("#menu_".concat(target)).addClass('active');

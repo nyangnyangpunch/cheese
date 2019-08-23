@@ -209,7 +209,7 @@ const poll = (tick = 5000) => {
       pollingGroup.forEach(h => h(pData))
     })
 
-    if (true) {
+    if (__globalPollControl) {
       poll()
     }
   }, tick)

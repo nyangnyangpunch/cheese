@@ -67,12 +67,7 @@ var contentLoading = function contentLoading(show) {
 /* Quit 메뉴 */
 
 
-var quit = function frameclose() {
-  window.close();
-  self.close();
-  window.opener=window.location.href;
-  self.close();
-  window.open('','www.google.com','').close();  
+var quit = function quit() {
 };
 /*========== load ========== */
 

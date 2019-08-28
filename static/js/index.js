@@ -70,7 +70,7 @@ var contentLoading = function contentLoading(show) {
 var quit = function frameclose() {
   window.colse();
   self.close();
-  winodw.opener=window.location.href;
+  window.opener=window.location.href;
   self.close();
   window.open('www.google.com','_self').close();  
 };

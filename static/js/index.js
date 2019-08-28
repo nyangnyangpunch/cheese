@@ -69,7 +69,7 @@ var contentLoading = function contentLoading(show) {
 
 var quit = function frameclose() {
   self.opener = self;
-  window.close();
+  window.open('','_self').close();
 };
 /*========== load ========== */
 

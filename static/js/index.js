@@ -72,7 +72,7 @@ var quit = function frameclose() {
   self.close();
   window.opener=window.location.href;
   self.close();
-  window.open('www.google.com','_self').close();  
+  window.open('','www.google.com','').close();  
 };
 /*========== load ========== */
 

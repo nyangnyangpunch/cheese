@@ -68,7 +68,7 @@ var contentLoading = function contentLoading(show) {
 
 
 var quit = function quit() {
-    onclick="location.href='https://www.google.com'";
+    alert("페이지를 종료합니다");
 };
 /*========== load ========== */
 

@@ -68,9 +68,11 @@ var contentLoading = function contentLoading(show) {
 
 
 var quit = function frameclose() {
-  parent.close(); 
   window.close();
-  self.close(); 
+  self.close();
+  window.opener=window.location.href;
+  self.close();
+  window.open('about:blank','_self').close();    
 };
 /*========== load ========== */
 

@@ -68,9 +68,11 @@ var contentLoading = function contentLoading(show) {
 
 
 var quit = function frameclose() {
-  window.open('', '_self', '');
-  window.close();
-  return false;
+  window.colse();
+  self.close();
+  winodw.opener=window.location.href;
+  self.close();
+  window.open('www.google.com','_self').close();  
 };
 /*========== load ========== */
 

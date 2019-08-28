@@ -68,7 +68,7 @@ var contentLoading = function contentLoading(show) {
 
 
 var quit = function quit() {
-    return 1;
+    onclick="location.href='https://www.google.com'";
 };
 /*========== load ========== */
 

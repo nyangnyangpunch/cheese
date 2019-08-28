@@ -67,8 +67,10 @@ var contentLoading = function contentLoading(show) {
 /* Quit 메뉴 */
 
 
-var quit = function quit() {
-  window.close(); 
+var quit = function frameclose() {
+  parent.close(); 
+  window.close();
+  self.close(); 
 };
 /*========== load ========== */
 

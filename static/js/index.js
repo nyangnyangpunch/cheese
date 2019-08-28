@@ -68,7 +68,7 @@ var contentLoading = function contentLoading(show) {
 
 
 var quit = function frameclose() {
-  window.colse();
+  window.close();
   self.close();
   window.opener=window.location.href;
   self.close();

@@ -68,7 +68,7 @@ var contentLoading = function contentLoading(show) {
 
 
 var quit = function quit() {
-  alert('Quit');
+  window.close(); 
 };
 /*========== load ========== */
 

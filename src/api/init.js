@@ -9,12 +9,85 @@ const API_ENDPOINT = '/API'
 const YAML_FILE = 'cheese.yaml'
 
 module.exports = app => {
-  
-  ///////////////////////////////////////////////////////////////////////////////
-  //by jung_min
-  ///////////////////////////////////////////////////////////////////////////////
 
-  //  kubectl autoscale deployment test --min=1 --max=4    
+  /*app.post(API_ENDPOINT + '/autoScale', async (req, res) => {
+    const podname = req.body.podname;
+    const min = req.body.min;
+    const max = req.body.max;
+    let response = null;
+
+    logger.info('kubectl autoscale deployment ' + podname + ' --min=' + min + ' --max=' + max);
+    try {
+      response = await createAutoScaler(namespace, autoscalerBody)
+    } catch (e) {
+      logger.error(e)
+    }
+    res.json(response)
+  })
+
+  //  kubectl scale deployments/test --replicas=1
+  app.post(API_ENDPOINT + '/selfScale', async (req, res) => {
+    const podname = req.body.podname;
+    const namespace = req.body.namespace;
+    const min = req.body.min;
+    let response = null;
+
+    logger.info('kubectl scale deployments ' + podname + ' --replicas=' + min);
+
+    try {
+      response = await replaceReplicaSetScale(podname, namespace, scaleBody)
+    } catch (e) {
+      logger.error(e)
+    }
+    res.json(response)
+  })
+
+  app.post(API_ENDPOINT + '/createPod', async (req, res) => {
+    const yaml = req.body.yaml
+    const namespace = req.body.namespace
+    let response = null
+    logger.info('Create pod - yaml\n' + yaml)
+
+    try {
+      await new Promise ((resolve, reject) => {
+        fs.writeFile(path.resolve(global.__root, YAML_FILE), yaml, err => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve()
+          }
+        })
+      })
+
+      response = await createPods(, path.resolve(global.__root, YAML_FILE))
+    } catch (e) {
+      logger.error(e)
+    }
+    res.json(response)
+  })*/
+
+  app.post(API_ENDPOINT + '/deletePod', async (req, res) => {
+    const name = req.body.name
+    const namespace = req.body.namespace
+    let response = null
+    logger.warning(`Delete pod - ${name}`)
+
+    try {
+      response = await k8s.deletePod(name, namespace)
+    } catch (e) {
+      logger.error(e)
+    }
+    res.json(response)
+  })
+
+  /*
+
+    ///////////////////////////////////////////////////////////////////////////////
+    //by jung_min
+    ///////////////////////////////////////////////////////////////////////////////
+
+
+  //  kubectl autoscale deployment test --min=1 --max=4
   app.post(API_ENDPOINT + '/autoScale', async (req, res) => {
     const podname = req.body.podname;
     const min = req.body.min;
@@ -61,7 +134,7 @@ module.exports = app => {
   })
   ////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////
-  
+
   app.post(API_ENDPOINT + '/createPod', async (req, res) => {
     const yaml = req.body.yaml
     let response = null
@@ -108,7 +181,7 @@ module.exports = app => {
     }
 
     res.json(response)
-  })
+  })*/
 
   app.get(API_ENDPOINT + '/getPods', async (_req, res) => {
     let resData = null
@@ -156,7 +229,7 @@ module.exports = app => {
                   }
                 }
               }
-            ]     
+            ]
           }
         },
         'sort': [

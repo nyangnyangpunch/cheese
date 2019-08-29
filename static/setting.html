@@ -88,12 +88,12 @@
     <div class="row">
       <div class="col wd-100">
         <div class="panel">
-          <div class="panel-title">언어</div>
+          <div class="panel-title" data-langNum="3">언어</div>
           <div class="panel-body">
-            <div class="text">치즈의 기본 언어를 변경합니다</div>
+            <div class="text" data-langNum="4">치즈의 기본 언어를 변경합니다</div>
             <div class="panel-control">
-              <button class="button white">한국어</button>
-              <button class="button white">English</button>
+              <button class="button white" data-lang="ko">한국어</button>
+              <button class="button white" data-lang="en">English</button>
             </div>
           </div>
         </div>
@@ -125,17 +125,17 @@
             </div>
 
             <div class="panel-control">
-                <button id="pod_search_auto"class="button red">검색</button>
+                <button id="pod_search_auto"class="button red" data-langNum="5">검색</button>
             </div>
 
             <div class="panel-control">
-              최소: <input id="min_auto" type="number" value="1">
+              min: <input id="min_auto" type="number" value="1">
             </div>
             <div class="panel-control">
-              최대: <input  id="max_auto" type="number" value="4">
+              max: <input  id="max_auto" type="number" value="4">
             </div>
             <div class="panel-control">
-              <button id="pod_replica_auto"class="button green">적용</button>
+              <button id="pod_replica_auto"class="button green" data-langNum="6">적용</button>
             </div>
           </div>
         </div>
@@ -152,15 +152,15 @@
               </div>
 
               <div class="panel-control">
-                  <button id="pod_search_self"class="button red">검색</button>
+                  <button id="pod_search_self"class="button red" data-langNum="7">검색</button>
               </div>
 
               <div class="panel-control">
-                개수: <input id="max_scale" type="number" value="1">
+                count: <input id="max_scale" type="number" value="1">
               </div>
               <!-- <div class="panel-control">부하율: <input type="number" value="80">%</div> -->
               <div class="panel-control">
-                <button id="pod_replica_scale"class="button green">적용</button>
+                <button id="pod_replica_scale"class="button green" data-langNum="8">적용</button>
               </div>
             </div>
           </div>

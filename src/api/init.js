@@ -17,9 +17,9 @@ module.exports = app => {
     const max = req.body.max;
     let response = null;
 
-    logger.info('kubectl autoscale deployment ' + podname + ' --min=' + min + ' --max=' + max);
+    logger.info('kubectl autoscale deployment '+namespace+'/' + podname + ' --min=' + min + ' --max=' + max);
     try {
-      response = await createAutoScaler(namespace, autoscalerBody)
+      response = await k8s.createAutoScaler(namespace, autoscalerBody)
     } catch (e) {
       logger.error(e)
     }
@@ -36,9 +36,9 @@ module.exports = app => {
     logger.info('kubectl scale deployments '+namespace+'/' + podname + ' --replicas=' + min);
 
     try {
-      const scaleBody = await getReplicaSetScale(podname, namespace)
+      const scaleBody = await k8s.getReplicaSetScale(podname, namespace)
       logger.info(scaleBody)
-      response = await replaceReplicaSetScale(podname, namespace, scaleBody)
+      response = await k8s.replaceReplicaSetScale(podname, namespace, scaleBody)
     } catch (e) {
       logger.error(e)
     }

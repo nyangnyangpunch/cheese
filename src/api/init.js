@@ -57,7 +57,7 @@ module.exports = app => {
   app.post(API_ENDPOINT + '/selfScale', async (req, res) => {
     const podname = req.body.podname;
     const namespace = req.body.namespace;
-    const min = req.body.min;
+    const max = req.body.max;
     let response = null;
 
     logger.info('kubectl scale deployments '+namespace+'/' + podname + ' --replicas=' + min);
@@ -65,7 +65,7 @@ module.exports = app => {
     try {
       let scaleBody = await k8s.getReplicaSetScale(podname, namespace)
       logger.info(scaleBody)
-      scaleBody.spec.replicas = min
+      scaleBody.spec.replicas = max
       logger.info(scaleBody)
       //scaleBody.metadata.creationTimestamp = undefined //iso string 변환에서 오류발생함
       response = await k8s.replaceReplicaSetScale(podname, namespace, scaleBody)

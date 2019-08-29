@@ -61,3 +61,46 @@ $(function () {
     }
   });
 });
+
+// 언어팩 선언.
+$.lang = {};
+
+$.lang.ko = {
+    0: '자바스크립트 다국어 처리.',
+	1: '안녕하세요',
+	2: '오늘은 금요일 입니다.',
+	3: '불금을 즐겨 보아요.'
+};
+
+$.lang.en = {
+    0: 'Javascript Language Localization.',
+	1: 'Hello.',
+	2: 'Today is Friday',
+	3: 'Fire~!!'
+};
+	
+$.lang.ja = {
+    0: 'JavaScriptの言語',
+	1: 'こんにちは',
+	2: '今日は金曜日です。',
+	3: 'ガンバレ~!!'
+};
+
+/**
+* setLanguage 
+* use $.lang[currentLanguage][languageNumber]
+*/
+function setLanguage(currentLanguage) {
+  console.log('setLanguage', arguments);
+  
+  $('[data-langNum]').each(function() {
+    var $this = $(this); 
+    $this.html($.lang[currentLanguage][$this.data('langnum')]); 
+  });	
+}  
+
+// 언어 변경
+$('button').click(function() {
+  var lang = $(this).data('lang');
+  setLanguage(lang); 
+});

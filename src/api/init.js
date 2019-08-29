@@ -66,8 +66,8 @@ module.exports = app => {
       let scaleBody = await k8s.getReplicaSetScale(podname, namespace)
       logger.info(scaleBody)
       scaleBody.spec.replicas = max
+      scaleBody.metadata.creationTimestamp = scaleBody.metadata.creationTimestamp.toISOString()
       logger.info(scaleBody)
-      //scaleBody.metadata.creationTimestamp = undefined //iso string 변환에서 오류발생함
       response = await k8s.replaceReplicaSetScale(podname, namespace, scaleBody)
     } catch (e) {
       logger.error(e)

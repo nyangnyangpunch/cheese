@@ -83,7 +83,7 @@ const replaceReplicaSetScale = async (name, namespace = 'default', scaleBody) =>
       resolve(body)
     }).catch(e => {
       logger.error(e)
-      logger.error(e.body.message)
+      logger.error(e.response.body.message)
       resolve(null)
     })
   })

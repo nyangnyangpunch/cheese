@@ -10,8 +10,9 @@ const YAML_FILE = 'cheese.yaml'
 
 module.exports = app => {
 
-  /*app.post(API_ENDPOINT + '/autoScale', async (req, res) => {
+  app.post(API_ENDPOINT + '/autoScale', async (req, res) => {
     const podname = req.body.podname;
+    const namespace = req.body.namespace;
     const min = req.body.min;
     const max = req.body.max;
     let response = null;
@@ -23,7 +24,7 @@ module.exports = app => {
       logger.error(e)
     }
     res.json(response)
-  })*/
+  })
 
   //  kubectl scale deployments/test --replicas=1
   app.post(API_ENDPOINT + '/selfScale', async (req, res) => {

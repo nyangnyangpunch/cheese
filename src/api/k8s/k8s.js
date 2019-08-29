@@ -58,6 +58,7 @@ const getReplicaSets = async (namespace = 'default') => {
  * ReplicaSet scale 읽기
  * @param {string} name ReplicaSet 이름
  * @param {string} namespace ReplicaSet 네임스페이스 (기본: default)
+ *
  */
 const getReplicaSetScale = async (name, namespace = 'default') => {
   return new Promise(resolve => {

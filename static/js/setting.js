@@ -18,6 +18,7 @@ $(function () {
     $('#pod_replica_auto').click(function () {
 
         var pod_name = $('#pod_name_auto').val();
+        var namespace = $('#namespace_auto').val();
         var min = $('#min_auto').val();
         var max = $('#max_auto').val();
 
@@ -28,6 +29,7 @@ $(function () {
                 dataType: 'JSON',
                 data: {
                     podname:pod_name,
+                    namespace: namespace,
                     min: min,
                     max: max
                 },

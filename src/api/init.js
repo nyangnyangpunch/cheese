@@ -19,7 +19,13 @@ module.exports = app => {
 
     logger.info('kubectl autoscale deployment '+namespace+'/' + podname + ' --min=' + min + ' --max=' + max);
     try {
-      response = await k8s.createAutoScaler(namespace, autoscalerBody)
+      let autoScaler = await k8s.getAutoScaler(podname, namespace)
+      if(autoScaler.kind == 'Status'){
+        logger.info(autoScaler)
+        response = await k8s.createAutoScaler(namespace, autoscalerBody)
+      }else{
+        logger.info(autoScaler)
+      }
     } catch (e) {
       logger.error(e)
     }

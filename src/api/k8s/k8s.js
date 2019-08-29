@@ -39,6 +39,21 @@ const createAutoScaler = async (namespace = 'default', autoscalerBody) => {
     })
   })
 }
+/**
+ * AutoScaler 읽기
+ * @param {string} name AutoScaler 이름
+ * @param {string} namespace AutoScaler 네임스페이스 (기본: default)
+ */
+const getAutoScaler = async (name, namespace = 'default') => {
+  return new Promise(resolve => {
+    k8sAutoscalingApi.readNamespacedHorizontalPodAutoscaler(name, namespace).then(({ body }) => {
+      resolve(body)
+    }).catch(e => {
+      logger.error(e)
+      resolve(null)
+    })
+  })
+}
 
 /**
  * ReplicaSets 정보를 불러옵니다.

@@ -22,9 +22,29 @@ module.exports = app => {
       let autoScaler = await k8s.getAutoScaler(podname, namespace)
       if(autoScaler.kind == 'Status'){
         logger.info(autoScaler)
+        autoScaler = {
+          apiVersion: 'autoscaling/v1',
+          kind: 'HorizontalPodAutoscaler',
+          metadata: {
+            name: podname,
+            namespace: namespace
+          },
+          spec: {
+            scaleTargetRef:{
+              apiVersion: 'apps/v1',
+              kind: 'Deployment',
+              name: podname
+            },
+            maxReplicas: max,
+            minReplicas: min,
+            targetCPUUtilizationPercentage: 50
+          }
+        };
         response = await k8s.createAutoScaler(namespace, autoscalerBody)
       }else{
         logger.info(autoScaler)
+
+        response = await
       }
     } catch (e) {
       logger.error(e)
@@ -45,6 +65,7 @@ module.exports = app => {
       let scaleBody = await k8s.getReplicaSetScale(podname, namespace)
       logger.info(scaleBody)
       scaleBody.spec.replicas = min
+      logger.info(scaleBody)
       //scaleBody.metadata.creationTimestamp = undefined //iso string 변환에서 오류발생함
       response = await k8s.replaceReplicaSetScale(podname, namespace, scaleBody)
     } catch (e) {

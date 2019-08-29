@@ -156,4 +156,5 @@ exports.replaceReplicaSetScale = replaceReplicaSetScale
 exports.getReplicaSetScale = getReplicaSetScale
 exports.getReplicaSets = getReplicaSets
 exports.createAutoScaler = createAutoScaler
+exports.getAutoScaler = getAutoScaler
 exports.getNamespaces = getNamespaces

@@ -64,7 +64,9 @@ module.exports = app => {
 
     try {
       let deployBody = await k8s.getDeployment(podname, namespace)
+      deployBody.spec.replicas = max
       logger.info(deployBody)
+      response = await k8s.replaceDeployment(podname, namespace, deployBody)
 
       let scaleBody = await k8s.getReplicaSetScale(podname, namespace)
       scaleBody.spec.replicas = max

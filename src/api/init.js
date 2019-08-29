@@ -36,8 +36,9 @@ module.exports = app => {
     logger.info('kubectl scale deployments '+namespace+'/' + podname + ' --replicas=' + min);
 
     try {
-      const scaleBody = await k8s.getReplicaSetScale(podname, namespace)
+      let scaleBody = await k8s.getReplicaSetScale(podname, namespace)
       logger.info(scaleBody)
+      scaleBody.spec.replicas = min
       response = await k8s.replaceReplicaSetScale(podname, namespace, scaleBody)
     } catch (e) {
       logger.error(e)

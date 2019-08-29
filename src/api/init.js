@@ -23,7 +23,7 @@ module.exports = app => {
       logger.error(e)
     }
     res.json(response)
-  })
+  })*/
 
   //  kubectl scale deployments/test --replicas=1
   app.post(API_ENDPOINT + '/selfScale', async (req, res) => {
@@ -32,9 +32,11 @@ module.exports = app => {
     const min = req.body.min;
     let response = null;
 
-    logger.info('kubectl scale deployments ' + podname + ' --replicas=' + min);
+    logger.info('kubectl scale deployments '+namespace+'/' + podname + ' --replicas=' + min);
 
     try {
+      const scaleBody = await getReplicaSetScale(podname, namespace)
+      logger.info(scaleBody)
       response = await replaceReplicaSetScale(podname, namespace, scaleBody)
     } catch (e) {
       logger.error(e)
@@ -42,7 +44,7 @@ module.exports = app => {
     res.json(response)
   })
 
-  app.post(API_ENDPOINT + '/createPod', async (req, res) => {
+  /*app.post(API_ENDPOINT + '/createPod', async (req, res) => {
     const yaml = req.body.yaml
     const namespace = req.body.namespace
     let response = null

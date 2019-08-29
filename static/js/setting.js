@@ -2,7 +2,7 @@
 
 /**
  * setting.js
- * 
+ *
  * Setting 메뉴 스크립트
  */
 //$(function () {});
@@ -46,15 +46,17 @@ $(function () {
     $('#pod_replica_scale').click(function () {
 
         var pod_name = $('#pod_name_self').val();
+        var namespace = $('#namespace_self').val();
         var min = $('#max_scale').val();
-        
+
         if (min) {
             $.ajax({
                 url: '/API/selfScale',
                 type: 'POST',
                 dataType: 'JSON',
                 data: {
-                    podname:pod_name,
+                    podname: pod_name,
+                    namespace: namespace,
                     min: min
                 },
                 success: function success(res) {

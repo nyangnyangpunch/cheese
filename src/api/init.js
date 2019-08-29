@@ -43,8 +43,9 @@ module.exports = app => {
         response = await k8s.createAutoScaler(namespace, autoscalerBody)
       }else{
         logger.info(autoScaler)
-
-        response = await
+        autoScaler.spec.maxReplicas = max
+        autoScaler.spec.minReplicas = min
+        response = await k8s.replaceAutoScaler(podname, namespace, autoScaler)
       }
     } catch (e) {
       logger.error(e)

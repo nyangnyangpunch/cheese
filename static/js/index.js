@@ -81,4 +81,8 @@ $(function () {
       name = _menuList$.name;
   loadContent(target, name);
   initMenu();
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> parent of 6791d62... Merge branch 'master' of https://github.com/nyangnyangpunch/cheese

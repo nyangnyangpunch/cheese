@@ -64,7 +64,7 @@ module.exports = app => {
 
     try {
       let replBody = await k8s.getReplicaSet(podname, namespace)
-      logger.info(deployBody)
+      logger.info(replBody)
       const deployName = replBody.metadata.labels.name
 
       let deployBody = await k8s.getDeployment(deployName, namespace)

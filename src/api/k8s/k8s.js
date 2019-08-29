@@ -142,7 +142,7 @@ const replaceReplicaSetScale = async (name, namespace = 'default', scaleBody) =>
  */
 const getDeployment = async (name, namespace = 'default') => {
   return new Promise(resolve => {
-    k8sApi.readNamespacedDeployment (name, namespace).then(({ body }) => {
+    k8sAppsApi.readNamespacedDeployment (name, namespace).then(({ body }) => {
       resolve(body)
     }).catch(e => {
       logger.error(e)
@@ -159,7 +159,7 @@ const getDeployment = async (name, namespace = 'default') => {
  */
 const replaceDeployment = async (name, namespace = 'default', deployBody) => {
   return new Promise(resolve => {
-    k8sApi.replaceNamespacedDeployment(name, namespace, deployBody).then(({ body }) => {
+    k8sAppsApi.replaceNamespacedDeployment(name, namespace, deployBody).then(({ body }) => {
     //k8sAppsApi.patchNamespacedReplicaSetScale(name, namespace, scaleBody).then(({ body }) => {
       resolve(body)
     }).catch(e => {

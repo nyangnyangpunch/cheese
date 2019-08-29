@@ -93,7 +93,7 @@ const replaceReplicaSetScale = async (name, namespace = 'default', scaleBody) =>
  */
 const deletePod = async (name, namespace = 'default') => {
   return new Promise(resolve => {
-    k8sApi.connectDeleteNamespacedPodProxy(name, namespace).then(({ body }) => {
+    k8sApi.deleteNamespacedPod(name, namespace).then(({ body }) => {
       resolve(body)
     }).catch(e => {
       logger.error(e)

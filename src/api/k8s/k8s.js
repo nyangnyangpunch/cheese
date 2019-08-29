@@ -78,11 +78,12 @@ const getReplicaSetScale = async (name, namespace = 'default') => {
  */
 const replaceReplicaSetScale = async (name, namespace = 'default', scaleBody) => {
   return new Promise(resolve => {
-    logger.info(scaleBody)
     k8sAppsApi.replaceNamespacedReplicaSetScale(name, namespace, scaleBody).then(({ body }) => {
+    //k8sAppsApi.patchNamespacedReplicaSetScale(name, namespace, scaleBody).then(({ body }) => {
       resolve(body)
     }).catch(e => {
       logger.error(e)
+      logger.error(e.response.body.message)
       resolve(null)
     })
   })

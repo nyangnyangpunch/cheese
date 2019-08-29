@@ -39,11 +39,22 @@ module.exports = app => {
       let scaleBody = await k8s.getReplicaSetScale(podname, namespace)
       logger.info(scaleBody)
       scaleBody.spec.replicas = min
+      //scaleBody.metadata.creationTimestamp = undefined //iso string 변환에서 오류발생함
       response = await k8s.replaceReplicaSetScale(podname, namespace, scaleBody)
     } catch (e) {
       logger.error(e)
     }
     res.json(response)
+  })
+
+  app.get(API_ENDPOINT + '/getReplicaSets', async (_req, res) => {
+    let resData = null
+    try {
+      resData = await k8s.getReplicaSets()
+    } catch (e) {
+      logger.error(e)
+    }
+    res.json(resData)
   })
 
   /*app.post(API_ENDPOINT + '/createPod', async (req, res) => {

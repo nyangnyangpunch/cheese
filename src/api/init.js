@@ -92,29 +92,19 @@ module.exports = app => {
     res.json(resData)
   })
 
-  /*app.post(API_ENDPOINT + '/createPod', async (req, res) => {
+  app.post(API_ENDPOINT + '/createPod', async (req, res) => {
     const yaml = req.body.yaml
     const namespace = req.body.namespace
     let response = null
     logger.info('Create pod - yaml\n' + yaml)
 
     try {
-      await new Promise ((resolve, reject) => {
-        fs.writeFile(path.resolve(global.__root, YAML_FILE), yaml, err => {
-          if (err) {
-            reject(err)
-          } else {
-            resolve()
-          }
-        })
-      })
-
-      response = await createPods(, path.resolve(global.__root, YAML_FILE))
+      response = await createPod(namespace, yaml)
     } catch (e) {
       logger.error(e)
     }
     res.json(response)
-  })*/
+  })
 
   app.post(API_ENDPOINT + '/deletePod', async (req, res) => {
     const name = req.body.name
@@ -183,7 +173,7 @@ module.exports = app => {
   ////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////
 
-  app.post(API_ENDPOINT + '/createPod', async (req, res) => {
+  /*app.post(API_ENDPOINT + '/createPod', async (req, res) => {
     const yaml = req.body.yaml
     let response = null
     logger.info('Create pod - yaml\n' + yaml)
@@ -209,7 +199,7 @@ module.exports = app => {
     }
 
     res.json(response)
-  })
+  })*/
 
   /*app.post(API_ENDPOINT + '/deletePod', async (req, res) => {
     const name = req.body.name

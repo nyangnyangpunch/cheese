@@ -86,6 +86,7 @@ $(function () {
   });
   $('#yaml_submit').click(function () {
     var yaml = $('#yaml').val();
+    var namespace = 'default'
 
     if (yaml) {
       $.ajax({
@@ -93,7 +94,8 @@ $(function () {
         type: 'POST',
         dataType: 'JSON',
         data: {
-          yaml: yaml
+          yaml: yaml,
+          namespace: namespace
         },
         success: function success(res) {
           if (res) {

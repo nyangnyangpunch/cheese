@@ -190,7 +190,7 @@ const deletePod = async (name, namespace = 'default') => {
  * @param {string} namespace Pod 네임스페이스 (기본: default)
  * @param {V1Pod} podBody Pod 생성 정보
  */
-const createPods = async (namespace = 'default', podBody) => {
+const createPod = async (namespace = 'default', podBody) => {
   return new Promise(resolve => {
     k8sApi.createNamespacedPod (namespace, podBody).then(({ body }) => {
       resolve(body)
@@ -216,7 +216,7 @@ const getPods = async (namespace = 'default') => {
 }
 
 exports.getPods = getPods
-exports.createPods = createPods
+exports.createPods = createPod
 exports.deletePod = deletePod
 exports.getDeployment = getDeployment
 exports.replaceDeployment = replaceDeployment

@@ -63,11 +63,12 @@ module.exports = app => {
     logger.info('kubectl scale deployments '+namespace+'/' + podname + ' --replicas=' + max);
 
     try {
+      let deployBody = await k8s.getDeployment(podname, namespace)
+      logger.info(deployBody)
+
       let scaleBody = await k8s.getReplicaSetScale(podname, namespace)
-      logger.info(scaleBody)
       scaleBody.spec.replicas = max
       scaleBody.metadata.creationTimestamp = scaleBody.metadata.creationTimestamp.toISOString()
-      logger.info(scaleBody)
       response = await k8s.replaceReplicaSetScale(podname, namespace, scaleBody)
     } catch (e) {
       logger.error(e)

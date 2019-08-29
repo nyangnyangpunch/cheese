@@ -13,8 +13,8 @@ module.exports = app => {
   app.post(API_ENDPOINT + '/autoScale', async (req, res) => {
     const podname = req.body.podname;
     const namespace = req.body.namespace;
-    const min = req.body.min;
-    const max = req.body.max;
+    const min = parseInt(req.body.min);
+    const max = parseInt(req.body.max);
     let response = null;
 
     logger.info('kubectl autoscale deployment '+namespace+'/' + podname + ' --min=' + min + ' --max=' + max);
@@ -57,7 +57,7 @@ module.exports = app => {
   app.post(API_ENDPOINT + '/selfScale', async (req, res) => {
     const podname = req.body.podname;
     const namespace = req.body.namespace;
-    const max = req.body.max;
+    const max = parseInt(req.body.max);
     let response = null;
 
     logger.info('kubectl scale deployments '+namespace+'/' + podname + ' --replicas=' + max);

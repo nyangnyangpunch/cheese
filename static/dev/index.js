@@ -67,7 +67,7 @@ const contentLoading = show => {
 
 /* Quit 메뉴 */
 const quit = () => {
-  alert('Quit')
+  alert('페이지를 종료합니다')
 }
 
 

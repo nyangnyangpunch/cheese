@@ -68,7 +68,7 @@ var contentLoading = function contentLoading(show) {
 
 
 var quit = function quit() {
-    alert("페이지를 종료합니다");
+  alert('페이지를 종료합니다');
 };
 /*========== load ========== */
 

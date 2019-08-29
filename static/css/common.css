@@ -203,3 +203,73 @@ textarea:focus {
 }
 
 /*---------- Control END ----------*/
+
+/*---------- Modal ----------*/
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, .2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+  -webkit-transition: opacity .3s;
+     -moz-transition: opacity .3s;
+      -ms-transition: opacity .3s;
+       -o-transition: opacity .3s;
+          transition: opacity .3s;
+}
+
+.modal.show {
+  opacity: 1;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal .modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 36%;
+  height: 400px;
+  padding: 1rem;
+  overflow-y: auto;
+  border-radius: 5px;
+  background-color: #fff;
+  -webkit-transform: translate(-50%, -50%);
+     -moz-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+       -o-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.modal .modal-content .close {
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 26px;
+  height: 26px;
+  text-align: center;
+  line-height: 26px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #fff;
+  border-radius: 50%;
+  background-color: tomato;
+}
+
+.modal .modal-content .close:hover {
+  background-color: #cc4f38;
+}
+
+.modal .modal-content .header {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/*---------- Modal END ----------*/

@@ -8,27 +8,17 @@
     <div class="row">
       <div class="col wd-100">
         <div class="panel">
-          <div class="panel-title">Create</div>
-          <div class="panel-body">
-            <button id="create" class="button green">Pod 만들기</button>
-          </div>
-          <div class="panel-body">
-            <div id="collapse" class="collapse">
-              <div class="content">
-                <textarea id="yaml" class="yaml-area" spellcheck="false"></textarea>
-                <button id="yaml_submit" class="button blue">Submit</button>
-              </div>
-            </div>
+          <div class="text">프로젝트를 생성하세요!</div>
+          <div class="panel-control">
+            <button id="create" class="button green">새로운 Pod 만들기</button>
           </div>
         </div>
       </div>
-      <div class="col wd-100">
-        <div class="panel">
-          <div class="panel-title">Overview</div>
-          <div id="project" class="panel-body">
-            <!-- Pods 정보 영역 -->
-          </div>
-        </div>
+    </div>
+    <div id="modal" class="modal hidden">
+      <div class="modal-content">
+        <div id="close" class="close">x</div>
+        <div class="header">Repository</div>
       </div>
     </div>
     <script src="/js/project.js"></script>

@@ -203,6 +203,8 @@ const getPods = async (namespace = 'default') => {
 exports.getPods = getPods
 exports.createPods = createPods
 exports.deletePod = deletePod
+exports.getDeployment = getDeployment
+exports.replaceDeployment = replaceDeployment
 exports.replaceReplicaSetScale = replaceReplicaSetScale
 exports.getReplicaSetScale = getReplicaSetScale
 exports.getReplicaSets = getReplicaSets

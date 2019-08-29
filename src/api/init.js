@@ -64,6 +64,7 @@ module.exports = app => {
 
     try {
       let scaleBody = await k8s.getReplicaSetScale(podname, namespace)
+      logger.info(scaleBody)
       const deployName = scaleBody.metadata.labels.name
 
       let deployBody = await k8s.getDeployment(deployName, namespace)

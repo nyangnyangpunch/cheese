@@ -7,6 +7,7 @@ const path = require('path')
 const fs = require('fs')
 const API_ENDPOINT = '/API'
 const YAML_FILE = 'cheese.yaml'
+const YAML = require('yamljs')
 
 module.exports = app => {
 
@@ -93,7 +94,7 @@ module.exports = app => {
   })
 
   app.post(API_ENDPOINT + '/createPod', async (req, res) => {
-    const yaml = req.body.yaml
+    const yaml = YAML.parse(req.body.yaml)
     const namespace = req.body.namespace
     let response = null
     logger.info('Create pod - yaml\n' + yaml)

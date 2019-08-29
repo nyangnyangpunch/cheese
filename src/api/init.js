@@ -99,7 +99,7 @@ module.exports = app => {
     logger.info('Create pod - yaml\n' + yaml)
 
     try {
-      response = await createPod(namespace, yaml)
+      response = await k8s.createPod(namespace, yaml)
     } catch (e) {
       logger.error(e)
     }

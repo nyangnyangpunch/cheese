@@ -10,7 +10,7 @@ const YAML_FILE = 'cheese.yaml'
 
 module.exports = app => {
 
-  app.post(API_ENDPOINT + '/autoScale', async (req, res) => {
+  /*app.post(API_ENDPOINT + '/autoScale', async (req, res) => {
     const podname = req.body.podname;
     const namespace = req.body.namespace;
     const min = parseInt(req.body.min);
@@ -51,12 +51,12 @@ module.exports = app => {
       logger.error(e)
     }
     res.json(response)
-  })
+  })*/
 
   //  kubectl scale deployments/test --replicas=1
   app.post(API_ENDPOINT + '/selfScale', async (req, res) => {
     const podname = req.body.podname;
-    const namespace = req.body.namespace;
+    const namespace = req.body.namespace!=''?req.body.namespace:'default'
     const max = parseInt(req.body.max);
     let response = null;
 
@@ -123,7 +123,7 @@ module.exports = app => {
     res.json(response)
   })
 
-  /*
+
 
     ///////////////////////////////////////////////////////////////////////////////
     //by jung_min
@@ -132,29 +132,27 @@ module.exports = app => {
 
   //  kubectl autoscale deployment test --min=1 --max=4
   app.post(API_ENDPOINT + '/autoScale', async (req, res) => {
-    const podname = req.body.podname;
-    const min = req.body.min;
-    const max = req.body.max;
+    var namespace = req.body.namespace;
+    var podname = req.body.podname;
+    var min = req.body.min;
+    var max = req.body.max;
     let response = null;
 
-    logger.info('kubectl autoscale deployment ' + podname + ' --min=' + min + ' --max=' + max);
+    logger.info('kubectl autoscale deployment ' + podname + ' --min=' + min + ' --max=' + max+' -n '+namespace);
     try {
-      response = await executeCommand('kubectl', [
-        'autoscale',
-        'deployment',
-        podname,
-        '--min=',
-        min,
-        '--max',
-        max
-      ])
+      if(namespace!=''){
+        response = await executeCommand('kubectl autoscale deployment ' + podname + ' --min=' + min + ' --max=' + max+' -n '+namespace)
+      }
+      else{
+        response = await executeCommand('kubectl autoscale deployment ' + podname + ' --min=' + min + ' --max=' + max)
+      }
     } catch (e) {
       logger.error(e)
     }
     res.json(response)
   })
 
-  //  kubectl scale deployments/test --replicas=1
+  /*//  kubectl scale deployments/test --replicas=1
   app.post(API_ENDPOINT + '/selfScale', async (req, res) => {
     const podname = req.body.podname;
     const min = req.body.min;

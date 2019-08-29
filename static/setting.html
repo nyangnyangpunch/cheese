@@ -120,13 +120,15 @@
           <div class="panel-title">Auto scale</div>
           <div class="panel-body">
             <div class="panel-body">
+              namespace: <input id="namespace_auto" type="text" value="">
+            </div>
+            <div class="panel-body">
               pod: <input id="pod_name_auto" type="text" value="">
-              namespace: <input id="namespace_auto" type="text" value="default">
             </div>
 
-            <div class="panel-control">
+            <!-- <div class="panel-control">
                 <button id="pod_search_auto"class="button red" data-langNum="5">검색</button>
-            </div>
+            </div> -->
 
             <div class="panel-control">
               min: <input id="min_auto" type="number" value="1">
@@ -147,13 +149,15 @@
             <div class="panel-title">Self scale</div>
             <div class="panel-body">
               <div class="panel-body">
+                namespace: <input id="namespace_self" type="text" value="">
+              </div>
+              <div class="panel-body">
                 pod: <input id="pod_name_self" type="text" value="">
-                namespace: <input id="namespace_self" type="text" value="default">
               </div>
 
-              <div class="panel-control">
+              <!-- <div class="panel-control">
                   <button id="pod_search_self"class="button red" data-langNum="7">검색</button>
-              </div>
+              </div> -->
 
               <div class="panel-control">
                 count: <input id="max_scale" type="number" value="1">

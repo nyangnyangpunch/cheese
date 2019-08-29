@@ -121,6 +121,41 @@ const replaceReplicaSetScale = async (name, namespace = 'default', scaleBody) =>
 }
 
 /**
+ * Deployment 읽기
+ * @param {string} name Deployment 이름
+ * @param {string} namespace Deployment 네임스페이스 (기본: default)
+ */
+const getDeployment = async (name, namespace = 'default') => {
+  return new Promise(resolve => {
+    k8sApi.readNamespacedDeployment (name, namespace).then(({ body }) => {
+      resolve(body)
+    }).catch(e => {
+      logger.error(e)
+      logger.error(e.response.body.message)
+      resolve(null)
+    })
+  })
+}
+/**
+ * Deployment 변경
+ * @param {string} name ReplicaSet 이름
+ * @param {string} namespace ReplicaSet 네임스페이스 (기본: default)
+ * @param {V1Deployment} deployBody
+ */
+const replaceDeployment = async (name, namespace = 'default', deployBody) => {
+  return new Promise(resolve => {
+    k8sApi.replaceNamespacedDeployment(name, namespace, deployBody).then(({ body }) => {
+    //k8sAppsApi.patchNamespacedReplicaSetScale(name, namespace, scaleBody).then(({ body }) => {
+      resolve(body)
+    }).catch(e => {
+      logger.error(e)
+      logger.error(e.response.body.message)
+      resolve(null)
+    })
+  })
+}
+
+/**
  * Pod 삭제
  * @param {string} namespace Pod 네임스페이스 (기본: default)
  * @param {string} name Pod 이름

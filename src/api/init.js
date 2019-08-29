@@ -71,7 +71,6 @@ module.exports = app => {
       response = await k8s.replaceReplicaSetScale(podname, namespace, scaleBody)
     } catch (e) {
       logger.error(e)
-      response = e
     }
     res.json(response)
   })

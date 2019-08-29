@@ -63,15 +63,16 @@ module.exports = app => {
     logger.info('kubectl scale deployments '+namespace+'/' + podname + ' --replicas=' + max);
 
     try {
-      let scaleBody = await k8s.getReplicaSetScale(podname, namespace)
-      logger.info(scaleBody)
-      const deployName = scaleBody.metadata.labels.name
+      let replBody = await k8s.getReplicaSet(podname, namespace)
+      logger.info(deployBody)
+      const deployName = replBody.metadata.labels.name
 
       let deployBody = await k8s.getDeployment(deployName, namespace)
       deployBody.spec.replicas = max
       logger.info(deployBody)
       response = await k8s.replaceDeployment(deployName, namespace, deployBody)
 
+      let scaleBody = await k8s.getReplicaSetScale(podname, namespace)
       scaleBody.spec.replicas = max
       scaleBody.metadata.creationTimestamp = scaleBody.metadata.creationTimestamp.toISOString()
       response = await k8s.replaceReplicaSetScale(podname, namespace, scaleBody)
@@ -178,7 +179,7 @@ module.exports = app => {
       logger.error(e)
     }
     res.json(response)
-  })
+  })*/
   ////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////
 
@@ -210,7 +211,7 @@ module.exports = app => {
     res.json(response)
   })
 
-  app.post(API_ENDPOINT + '/deletePod', async (req, res) => {
+  /*app.post(API_ENDPOINT + '/deletePod', async (req, res) => {
     const name = req.body.name
     let response = null
     logger.warning(`Delete pod - ${name}`)

@@ -86,6 +86,21 @@ const getReplicaSets = async (namespace = 'default') => {
   })
 }
 /**
+ * ReplicaSet 정보를 불러옵니다.
+ * @param {string} name ReplicaSet 이름
+ * @param {string} namespace ReplicaSet 네임스페이스 (기본: default)
+ */
+const getReplicaSet = async (name, namespace = 'default') => {
+  return new Promise(resolve => {
+    k8sAppsApi.readNamespacedReplicaSet(name, namespace).then(({ body }) => {
+      resolve(body)
+    }).catch(e => {
+      logger.error(e)
+      resolve(null)
+    })
+  })
+}
+/**
  * ReplicaSet scale 읽기
  * @param {string} name ReplicaSet 이름
  * @param {string} namespace ReplicaSet 네임스페이스 (기본: default)
@@ -208,6 +223,7 @@ exports.replaceDeployment = replaceDeployment
 exports.replaceReplicaSetScale = replaceReplicaSetScale
 exports.getReplicaSetScale = getReplicaSetScale
 exports.getReplicaSets = getReplicaSets
+exports.getReplicaSet = getReplicaSet
 exports.createAutoScaler = createAutoScaler
 exports.getAutoScaler = getAutoScaler
 exports.getNamespaces = getNamespaces

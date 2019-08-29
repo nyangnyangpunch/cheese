@@ -60,7 +60,7 @@ module.exports = app => {
     const max = req.body.max;
     let response = null;
 
-    logger.info('kubectl scale deployments '+namespace+'/' + podname + ' --replicas=' + min);
+    logger.info('kubectl scale deployments '+namespace+'/' + podname + ' --replicas=' + max);
 
     try {
       let scaleBody = await k8s.getReplicaSetScale(podname, namespace)

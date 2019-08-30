@@ -71,9 +71,12 @@ module.exports = app => {
       let deployBody = await k8s.getDeployment(deployName, namespace)
       deployBody.spec.replicas = max
       deployBody.metadata.creationTimestamp = deployBody.metadata.creationTimestamp.toISOString()
+      deployBody.status.conditions[0].lastTransitionTime = deployBody.status.conditions[0].lastTransitionTime.toISOString()
+      deployBody.status.conditions[0].lastUpdateTime = deployBody.status.conditions[0].lastUpdateTime.toISOString()
+      deployBody.status.conditions[1].lastTransitionTime = deployBody.status.conditions[1].lastTransitionTime.toISOString()
+      deployBody.status.conditions[1].lastUpdateTime = deployBody.status.conditions[1].lastUpdateTime.toISOString()
+
       logger.info(deployBody)
-      logger.info(deployBody.status.conditions[0])
-      logger.info(deployBody.status.conditions[1])
       response = await k8s.replaceDeployment(deployName, namespace, deployBody)
 
       let scaleBody = await k8s.getReplicaSetScale(podname, namespace)

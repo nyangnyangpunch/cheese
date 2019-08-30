@@ -55,7 +55,7 @@ module.exports = app => {
   })*/
 
   //  kubectl scale deployments/test --replicas=1
-  app.post(API_ENDPOINT + '/selfScale', async (req, res) => {
+  /*app.post(API_ENDPOINT + '/selfScale', async (req, res) => {
     const podname = req.body.podname;
     const namespace = req.body.namespace!=''?req.body.namespace:'default'
     const max = parseInt(req.body.max);
@@ -81,7 +81,7 @@ module.exports = app => {
       logger.error(e)
     }
     res.json(response)
-  })
+  })*/
 
   app.get(API_ENDPOINT + '/getReplicaSets', async (_req, res) => {
     let resData = null
@@ -150,27 +150,29 @@ module.exports = app => {
     res.json(response)
   })
 
-  /*//  kubectl scale deployments/test --replicas=1
+  /**///  kubectl scale deployments/test --replicas=1
   app.post(API_ENDPOINT + '/selfScale', async (req, res) => {
-    const podname = req.body.podname;
-    const min = req.body.min;
+    var namespace = req.body.namespace;
+    var podname = req.body.podname;
+    var min = req.body.min;
     let response = null;
 
+    const p = this.toString(podname);
+    const m = this.toString(min);
     logger.info('kubectl scale deployments ' + podname + ' --replicas=' + min);
-
+    // kubectl get pods -n kube-system coredns
     try {
-      response = await executeCommand('kubectl', [
-        'scale',
-        'deployments',
-        podname,
-        '--replicas=',
-        min
-      ])
+      if (namespace != '') {
+        response = await executeCommand('kubectl scale deployments ' + podname + ' --replicas=' + min + ' -n kube-system')
+      }
+      else {
+        response = await executeCommand('kubectl scale deployments ' + podname + ' --replicas=' + min)
+      }
     } catch (e) {
       logger.error(e)
     }
     res.json(response)
-  })*/
+  })
   ////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////
 

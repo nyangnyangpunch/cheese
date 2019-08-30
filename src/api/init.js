@@ -54,8 +54,8 @@ module.exports = app => {
     res.json(response)
   })*/
 
-  //  kubectl scale deployments/test --replicas=1
-  /*app.post(API_ENDPOINT + '/selfScale', async (req, res) => {
+  /**///  kubectl scale deployments/test --replicas=1
+  app.post(API_ENDPOINT + '/selfScale', async (req, res) => {
     const podname = req.body.podname;
     const namespace = req.body.namespace!=''?req.body.namespace:'default'
     const max = parseInt(req.body.max);
@@ -81,7 +81,7 @@ module.exports = app => {
       logger.error(e)
     }
     res.json(response)
-  })*/
+  })
 
   app.get(API_ENDPOINT + '/getReplicaSets', async (_req, res) => {
     let resData = null
@@ -150,7 +150,7 @@ module.exports = app => {
     res.json(response)
   })
 
-  /**///  kubectl scale deployments/test --replicas=1
+  /*//  kubectl scale deployments/test --replicas=1
   app.post(API_ENDPOINT + '/selfScale', async (req, res) => {
     var namespace = req.body.namespace;
     var podname = req.body.podname;
@@ -172,7 +172,7 @@ module.exports = app => {
       logger.error(e)
     }
     res.json(response)
-  })
+  })*/
   ////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////
 

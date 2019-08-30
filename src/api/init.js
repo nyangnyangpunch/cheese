@@ -79,10 +79,10 @@ module.exports = app => {
       logger.info(deployBody)
       response = await k8s.replaceDeployment(deployName, namespace, deployBody)
 
-      let scaleBody = await k8s.getReplicaSetScale(podname, namespace)
+      /*let scaleBody = await k8s.getReplicaSetScale(podname, namespace)
       scaleBody.spec.replicas = max
       scaleBody.metadata.creationTimestamp = scaleBody.metadata.creationTimestamp.toISOString()
-      response = await k8s.replaceReplicaSetScale(podname, namespace, scaleBody)
+      response = await k8s.replaceReplicaSetScale(podname, namespace, scaleBody)*/
     } catch (e) {
       logger.error(e)
     }

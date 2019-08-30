@@ -70,6 +70,7 @@ module.exports = app => {
 
       let deployBody = await k8s.getDeployment(deployName, namespace)
       deployBody.spec.replicas = max
+      deployBody.metadata.creationTimestamp.toISOString()
       logger.info(deployBody)
       response = await k8s.replaceDeployment(deployName, namespace, deployBody)
 
